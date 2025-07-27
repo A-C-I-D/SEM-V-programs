@@ -1,0 +1,292 @@
+create database bank1;
+use bank1;
+
+CREATE TABLE account(
+	account_number BIGINT PRIMARY KEY,
+	branch_name varchar(10),
+	balance int(10) 
+);
+
+CREATE TABLE branch(
+	branch_name varchar(10) PRIMARY KEY,
+	branch_city varchar(10) DEFAULT 'PUNE',
+	assets BIGINT
+);
+
+CREATE TABLE customer(
+	cust_name varchar(20) PRIMARY KEY,
+	cust_street varchar(15),
+	cust_city varchar(10)
+);
+
+CREATE TABLE loan(
+	loan_no BIGINT PRIMARY KEY,
+	branch_name varchar(10),
+	amount int(8)
+);
+
+CREATE TABLE depositor(
+	cust_name varchar(20),
+	account_number BIGINT,
+	FOREIGN KEY (cust_name) REFERENCES customer(cust_name),
+	FOREIGN KEY (account_number) REFERENCES account(account_number)
+);
+
+CREATE TABLE borrower(
+	cust_name varchar(20),
+	loan_no BIGINT,
+	FOREIGN KEY (cust_name) REFERENCES customer(cust_name),
+	FOREIGN KEY (loan_no) REFERENCES loan(loan_no)
+);
+
+ALTER TABLE account
+	ADD FOREIGN KEY (branch_name)
+	REFERENCES branch(branch_name);
+	
+
+ALTER TABLE loan
+	ADD FOREIGN KEY (branch_name)
+	REFERENCES branch(branch_name);
+	
+desc account;
+desc branch;
+desc customer;
+desc loan;
+desc depositor;
+desc borrower;
+
+INSERT INTO branch
+	VALUES("SUNCITY", "PUNE", 100000000);
+	
+INSERT INTO account
+	VALUES(345243200001, "SUNCITY", 90031),
+	(345243200002, "SUNCITY", 589224),
+	(345243200003, "SUNCITY", 7998),
+	(345243200004, "SUNCITY", 125448),
+	(345243200005, "SUNCITY", 21542);
+
+INSERT INTO customer
+	VALUES("Ved", "Suncity", "Pune"),
+	("Atrava", "Wadia", "Pune"),
+	("Aditya", "KasbaPeth", "Pune"),
+	("Manavi", "Gulhmore", "Pune"),
+	("Harsh", "Koregoan", "Pune");
+	
+INSERT INTO loan
+	VALUES(10992001, "SUNCITY", 15000),
+	(10992002, "SUNCITY", 70000),
+	(10992003, "SUNCITY", 643000);
+	
+INSERT INTO depositor
+	VALUES("Ved", 345243200001),
+	("Atrava", 345243200002),
+	("Aditya", 345243200003),
+	("Manavi", 345243200004),
+	("Harsh", 345243200005);
+	
+INSERT INTO borrower
+	VALUES("Ved", 10992001),
+	("Manavi", 10992002),
+	("Atrava", 10992003);
+
+INSERT INTO branch
+	VALUES("AKRUDI", "PUNE", 50000000);
+
+INSERT INTO account
+	VALUES(345242300001, "AKRUDI", 979031),
+	(345242300002, "AKRUDI", 58924),
+	(345242300003, "AKRUDI", 688),
+	(345242300004, "AKRUDI", 1848),
+	(345242300005, "AKRUDI", 97542);
+
+INSERT INTO customer
+	VALUES("Tejas", "Akurdi", "Pune"),
+	("Chitanaya", "ShinwarPeth", "Pune"),
+	("Vaibhav", "Yerawada", "Pune"),
+	("Rushi", "Nanded", "Pune"),
+	("Sartak", "FC", "Pune");
+	
+INSERT INTO loan
+	VALUES(10994001, "AKRUDI", 7500),
+	(10994002, "AKRUDI", 980000),
+	(10994003, "AKRUDI", 4500);
+	
+INSERT INTO depositor
+	VALUES("Tejas", 345242300001),
+	("Chitanaya", 345242300002),
+	("Vaibhav", 345242300003),
+	("Rushi", 345242300004),
+	("Sartak", 345242300005);
+	
+INSERT INTO borrower
+	VALUES("Chitanaya", 10994001),
+	("Vaibhav", 10994002),
+	("Tejas", 10994003);
+
+INSERT INTO branch
+	VALUES("NIGDI", "NIGDI", 75000000);
+
+INSERT INTO account
+	VALUES(345244400001, "NIGDI", 25000),
+	(345244400002, "NIGDI", 150000),
+	(345244400003, "NIGDI", 89000);
+
+INSERT INTO customer
+	VALUES("Priya", "Nigdi", "Pune"),
+	("Rohit", "Nigdi", "Pune"),
+	("Sneha", "Nigdi", "Pune");
+
+INSERT INTO loan
+	VALUES(10996001, "NIGDI", 25000),
+	(10996002, "NIGDI", 120000);
+
+INSERT INTO depositor
+	VALUES("Priya", 345244400001),
+	("Rohit", 345244400002),
+	("Sneha", 345244400003);
+
+INSERT INTO borrower
+	VALUES("Priya", 10996001),
+	("Rohit", 10996002);
+
+INSERT INTO customer
+	VALUES("Pranav", "Kothrud", "Pune"),
+	("Pooja", "Deccan", "Pune"),
+	("Prakash", "Viman", "Pune");
+
+INSERT INTO account
+	VALUES(345245500001, "SUNCITY", 45000),
+	(345245500002, "AKRUDI", 78000),
+	(345245500003, "NIGDI", 32000);
+
+	VALUES("Pranav", 345245500001),
+	("Pooja", 345245500002),
+	("Prakash", 345245500003);
+
+INSERT INTO loan
+	VALUES(10997001, "SUNCITY", 1350),
+	(10997002, "AKRUDI", 1420),
+	(10997003, "NIGDI", 1380);
+
+INSERT INTO borrower
+	VALUES("Pranav", 10997001),
+	("Pooja", 10997002),
+	("Prakash", 10997003);
+
+INSERT INTO loan
+	VALUES(12001, "AKRUDI", 50000),
+	(12002, "AKRUDI", 75000),
+	(15000, "SUNCITY", 100000);
+
+INSERT INTO customer
+	VALUES("Amit", "Pimple", "Pune"),
+	("Neha", "Baner", "Pune"),
+	("Kiran", "Wakad", "Pune");
+
+INSERT INTO borrower
+	VALUES("Amit", 12001),
+	("Neha", 12002),
+	("Kiran", 15000);
+
+INSERT INTO account
+	VALUES(345246600001, "AKRUDI", 120000),
+	(345246600002, "AKRUDI", 95000),
+	(345246600003, "SUNCITY", 110000);
+
+INSERT INTO depositor
+	VALUES("Amit", 345246600001),
+	("Neha", 345246600002),
+	("Kiran", 345246600003);
+
+SELECT * FROM branch;
+SELECT * FROM account;
+SELECT * FROM customer;
+SELECT * FROM loan;
+SELECT * FROM depositor;
+SELECT * FROM borrower;
+
+SELECT branch_name 
+	FROM loan;
+	
+SELECT loan_no 
+	FROM loan
+	WHERE loan_no > 12000 AND branch_name = "AKRUDI";
+
+SELECT loan.loan_no, loan.amount, borrower.cust_name 
+	FROM loan, borrower
+	WHERE loan.loan_no = borrower.loan_no;
+	
+SELECT borrower.cust_name
+	FROM borrower, loan
+	WHERE loan.branch_name = "AKRUDI" AND loan.loan_no = borrower.loan_no
+	ORDER BY cust_name ASC;
+	
+SELECT depositor.cust_name, borrower.cust_name
+	FROM depositor, borrower
+	WHERE depositor.cust_name = borrower.cust_name;
+
+SELECT cust_name
+	FROM depositor
+	WHERE cust_name NOT IN (SELECT cust_name FROM borrower);
+
+SELECT cust_name
+	FROM borrower
+	WHERE cust_name NOT IN (SELECT cust_name FROM depositor);
+
+SELECT branch_name, AVG(balance)
+	FROM account
+	WHERE branch_name IN (SELECT DISTINCT branch_name FROM branch)
+	GROUP BY branch_name;
+	
+SELECT COUNT(depositor.account_number) as account_count, account.branch_name
+	FROM depositor, account
+	WHERE depositor.account_number = account.account_number
+	  AND branch_name IN (SELECT DISTINCT branch_name FROM account)
+	GROUP BY branch_name;
+
+SELECT cust_name, cust_city
+	FROM customer
+	WHERE cust_name LIKE "P%";
+	
+SELECT DISTINCT branch_city
+	FROM branch;
+
+SELECT branch_name, AVG(balance)
+	FROM account
+	GROUP BY branch_name
+	HAVING AVG(balance) > 12000 AND branch_name IN (SELECT DISTINCT branch_name FROM branch);
+
+SELECT COUNT(*)
+	FROM customer;
+
+SELECT SUM(amount)
+	FROM loan;
+
+DELETE borrower FROM borrower
+INNER JOIN loan ON borrower.loan_no = loan.loan_no
+WHERE loan.amount BETWEEN 1300 AND 1500;
+
+DELETE FROM loan
+WHERE amount BETWEEN 1300 AND 1500;
+
+DELETE borrower FROM borrower
+INNER JOIN loan ON borrower.loan_no = loan.loan_no
+INNER JOIN branch ON loan.branch_name = branch.branch_name
+WHERE branch.branch_city = 'NIGDI';
+
+DELETE depositor FROM depositor
+INNER JOIN account ON depositor.account_number = account.account_number
+INNER JOIN branch ON account.branch_name = branch.branch_name
+WHERE branch.branch_city = 'NIGDI';
+
+DELETE FROM loan
+WHERE branch_name IN (SELECT branch_name FROM branch WHERE branch_city = 'NIGDI');
+
+DELETE FROM account
+WHERE branch_name IN (SELECT branch_name FROM branch WHERE branch_city = 'NIGDI');
+
+DELETE FROM customer
+WHERE cust_city = 'NIGDI';
+
+DELETE FROM branch
+WHERE branch_city = 'NIGDI';
