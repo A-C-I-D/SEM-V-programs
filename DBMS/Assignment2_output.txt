@@ -1,7 +1,23 @@
-mysql> create database bank1;
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 12
+Server version: 8.0.43 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> drop database bank1;
+Query OK, 6 rows affected (0.26 sec)
+
+mysql> create database Bank;
 Query OK, 1 row affected (0.00 sec)
 
-mysql> use bank1;
+mysql> use Bank;
 Database changed
 mysql>
 mysql> CREATE TABLE account(
@@ -25,7 +41,7 @@ mysql> CREATE TABLE customer(
     ->  cust_street varchar(15),
     ->  cust_city varchar(10)
     -> );
-Query OK, 0 rows affected (0.02 sec)
+Query OK, 0 rows affected (0.01 sec)
 
 mysql>
 mysql> CREATE TABLE loan(
@@ -33,7 +49,7 @@ mysql> CREATE TABLE loan(
     ->  branch_name varchar(10),
     ->  amount int(8)
     -> );
-Query OK, 0 rows affected, 1 warning (0.03 sec)
+Query OK, 0 rows affected, 1 warning (0.01 sec)
 
 mysql>
 mysql> CREATE TABLE depositor(
@@ -42,7 +58,7 @@ mysql> CREATE TABLE depositor(
     ->  FOREIGN KEY (cust_name) REFERENCES customer(cust_name),
     ->  FOREIGN KEY (account_number) REFERENCES account(account_number)
     -> );
-Query OK, 0 rows affected (0.05 sec)
+Query OK, 0 rows affected (0.03 sec)
 
 mysql>
 mysql> CREATE TABLE borrower(
@@ -51,21 +67,20 @@ mysql> CREATE TABLE borrower(
     ->  FOREIGN KEY (cust_name) REFERENCES customer(cust_name),
     ->  FOREIGN KEY (loan_no) REFERENCES loan(loan_no)
     -> );
-Query OK, 0 rows affected (0.07 sec)
+Query OK, 0 rows affected (0.03 sec)
 
 mysql>
 mysql> ALTER TABLE account
     ->  ADD FOREIGN KEY (branch_name)
     ->  REFERENCES branch(branch_name);
-Query OK, 0 rows affected (0.09 sec)
+Query OK, 0 rows affected (0.05 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
-mysql>
 mysql>
 mysql> ALTER TABLE loan
     ->  ADD FOREIGN KEY (branch_name)
     ->  REFERENCES branch(branch_name);
-Query OK, 0 rows affected (0.09 sec)
+Query OK, 0 rows affected (0.04 sec)
 Records: 0  Duplicates: 0  Warnings: 0
 
 mysql>
@@ -77,7 +92,7 @@ mysql> desc account;
 | branch_name    | varchar(10) | YES  | MUL | NULL    |       |
 | balance        | int         | YES  |     | NULL    |       |
 +----------------+-------------+------+-----+---------+-------+
-3 rows in set (0.00 sec)
+3 rows in set (0.02 sec)
 
 mysql> desc branch;
 +-------------+-------------+------+-----+---------+-------+
@@ -130,7 +145,7 @@ mysql> desc borrower;
 mysql>
 mysql> INSERT INTO branch
     ->  VALUES("SUNCITY", "PUNE", 100000000);
-Query OK, 1 row affected (0.01 sec)
+Query OK, 1 row affected (0.00 sec)
 
 mysql>
 mysql> INSERT INTO account
@@ -157,7 +172,7 @@ mysql> INSERT INTO loan
     ->  VALUES(10992001, "SUNCITY", 15000),
     ->  (10992002, "SUNCITY", 70000),
     ->  (10992003, "SUNCITY", 643000);
-Query OK, 3 rows affected (0.01 sec)
+Query OK, 3 rows affected (0.00 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 mysql>
@@ -167,7 +182,7 @@ mysql> INSERT INTO depositor
     ->  ("Aditya", 345243200003),
     ->  ("Manavi", 345243200004),
     ->  ("Harsh", 345243200005);
-Query OK, 5 rows affected (0.01 sec)
+Query OK, 5 rows affected (0.00 sec)
 Records: 5  Duplicates: 0  Warnings: 0
 
 mysql>
@@ -177,6 +192,71 @@ mysql> INSERT INTO borrower
     ->  ("Atrava", 10992003);
 Query OK, 3 rows affected (0.00 sec)
 Records: 3  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> SELECT * FROM branch;
++-------------+-------------+-----------+
+| branch_name | branch_city | assets    |
++-------------+-------------+-----------+
+| SUNCITY     | PUNE        | 100000000 |
++-------------+-------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+|   345243200001 | SUNCITY     |   90031 |
+|   345243200002 | SUNCITY     |  589224 |
+|   345243200003 | SUNCITY     |    7998 |
+|   345243200004 | SUNCITY     |  125448 |
+|   345243200005 | SUNCITY     |   21542 |
++----------------+-------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM customer;
++-----------+-------------+-----------+
+| cust_name | cust_street | cust_city |
++-----------+-------------+-----------+
+| Aditya    | KasbaPeth   | Pune      |
+| Atrava    | Wadia       | Pune      |
+| Harsh     | Koregoan    | Pune      |
+| Manavi    | Gulhmore    | Pune      |
+| Ved       | Suncity     | Pune      |
++-----------+-------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM loan;
++----------+-------------+--------+
+| loan_no  | branch_name | amount |
++----------+-------------+--------+
+| 10992001 | SUNCITY     |  15000 |
+| 10992002 | SUNCITY     |  70000 |
+| 10992003 | SUNCITY     | 643000 |
++----------+-------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM depositor;
++-----------+----------------+
+| cust_name | account_number |
++-----------+----------------+
+| Ved       |   345243200001 |
+| Atrava    |   345243200002 |
+| Aditya    |   345243200003 |
+| Manavi    |   345243200004 |
+| Harsh     |   345243200005 |
++-----------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM borrower;
++-----------+----------+
+| cust_name | loan_no  |
++-----------+----------+
+| Ved       | 10992001 |
+| Manavi    | 10992002 |
+| Atrava    | 10992003 |
++-----------+----------+
+3 rows in set (0.00 sec)
 
 mysql>
 mysql> INSERT INTO branch
@@ -208,7 +288,7 @@ mysql> INSERT INTO loan
     ->  VALUES(10994001, "AKRUDI", 7500),
     ->  (10994002, "AKRUDI", 980000),
     ->  (10994003, "AKRUDI", 4500);
-Query OK, 3 rows affected (0.01 sec)
+Query OK, 3 rows affected (0.00 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 mysql>
@@ -218,7 +298,7 @@ mysql> INSERT INTO depositor
     ->  ("Vaibhav", 345242300003),
     ->  ("Rushi", 345242300004),
     ->  ("Sartak", 345242300005);
-Query OK, 5 rows affected (0.01 sec)
+Query OK, 5 rows affected (0.00 sec)
 Records: 5  Duplicates: 0  Warnings: 0
 
 mysql>
@@ -226,130 +306,342 @@ mysql> INSERT INTO borrower
     ->  VALUES("Chitanaya", 10994001),
     ->  ("Vaibhav", 10994002),
     ->  ("Tejas", 10994003);
-Query OK, 3 rows affected (0.01 sec)
+Query OK, 3 rows affected (0.00 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 mysql>
 mysql> INSERT INTO branch
-    ->  VALUES("NIGDI", "NIGDI", 75000000);
-Query OK, 1 row affected (0.00 sec)
-
-mysql>
-mysql> INSERT INTO account
-    ->  VALUES(345244400001, "NIGDI", 25000),
-    ->  (345244400002, "NIGDI", 150000),
-    ->  (345244400003, "NIGDI", 89000);
-Query OK, 3 rows affected (0.01 sec)
-Records: 3  Duplicates: 0  Warnings: 0
-
-mysql>
-mysql> INSERT INTO customer
-    ->  VALUES("Priya", "Nigdi", "Pune"),
-    ->  ("Rohit", "Nigdi", "Pune"),
-    ->  ("Sneha", "Nigdi", "Pune");
-Query OK, 3 rows affected (0.00 sec)
-Records: 3  Duplicates: 0  Warnings: 0
-
-mysql>
-mysql> INSERT INTO loan
-    ->  VALUES(10996001, "NIGDI", 25000),
-    ->  (10996002, "NIGDI", 120000);
-Query OK, 2 rows affected (0.00 sec)
-Records: 2  Duplicates: 0  Warnings: 0
-
-mysql>
-mysql> INSERT INTO depositor
-    ->  VALUES("Priya", 345244400001),
-    ->  ("Rohit", 345244400002),
-    ->  ("Sneha", 345244400003);
-Query OK, 3 rows affected (0.00 sec)
-Records: 3  Duplicates: 0  Warnings: 0
-
-mysql>
-mysql> INSERT INTO borrower
-    ->  VALUES("Priya", 10996001),
-    ->  ("Rohit", 10996002);
+    ->  VALUES("BANDRA", "MUMBAI", 200000000),
+    ->  ("ANDHERI", "MUMBAI", 150000000);
 Query OK, 2 rows affected (0.00 sec)
 Records: 2  Duplicates: 0  Warnings: 0
 
 mysql>
 mysql> INSERT INTO customer
-    ->  VALUES("Pranav", "Kothrud", "Pune"),
-    ->  ("Pooja", "Deccan", "Pune"),
-    ->  ("Prakash", "Viman", "Pune");
-Query OK, 3 rows affected (0.01 sec)
-Records: 3  Duplicates: 0  Warnings: 0
+    ->  VALUES("Priya", "Marine Drive", "Mumbai"),
+    ->  ("Rohit", "Bandra West", "Mumbai"),
+    ->  ("Pooja", "Andheri East", "Mumbai"),
+    ->  ("Prasad", "Worli", "Mumbai"),
+    ->  ("Sneha", "Powai", "Mumbai"),
+    ->  ("Rajesh", "Thane", "Mumbai");
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
 
 mysql>
 mysql> INSERT INTO account
-    ->  VALUES(345245500001, "SUNCITY", 45000),
-    ->  (345245500002, "AKRUDI", 78000),
-    ->  (345245500003, "NIGDI", 32000);
-Query OK, 3 rows affected (0.00 sec)
-Records: 3  Duplicates: 0  Warnings: 0
-
-mysql>
-mysql>  VALUES("Pranav", 345245500001),
-    ->  ("Pooja", 345245500002),
-    ->  ("Prakash", 345245500003);
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '("Pranav", 345245500001),
-        ("Pooja", 345245500002),
-        ("Prakash", 345245500003)' at line 1
-mysql>
-mysql> INSERT INTO loan
-    ->  VALUES(10997001, "SUNCITY", 1350),
-    ->  (10997002, "AKRUDI", 1420),
-    ->  (10997003, "NIGDI", 1380);
-Query OK, 3 rows affected (0.01 sec)
-Records: 3  Duplicates: 0  Warnings: 0
-
-mysql>
-mysql> INSERT INTO borrower
-    ->  VALUES("Pranav", 10997001),
-    ->  ("Pooja", 10997002),
-    ->  ("Prakash", 10997003);
-Query OK, 3 rows affected (0.01 sec)
-Records: 3  Duplicates: 0  Warnings: 0
+    ->  VALUES(345245600001, "BANDRA", 45000),
+    ->  (345245600002, "BANDRA", 78000),
+    ->  (345245600003, "ANDHERI", 12500),
+    ->  (345245600004, "ANDHERI", 95000),
+    ->  (345245600005, "BANDRA", 156000),
+    ->  (345245600006, "ANDHERI", 8500);
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
 
 mysql>
 mysql> INSERT INTO loan
-    ->  VALUES(12001, "AKRUDI", 50000),
-    ->  (12002, "AKRUDI", 75000),
-    ->  (15000, "SUNCITY", 100000);
-Query OK, 3 rows affected (0.01 sec)
-Records: 3  Duplicates: 0  Warnings: 0
-
-mysql>
-mysql> INSERT INTO customer
-    ->  VALUES("Amit", "Pimple", "Pune"),
-    ->  ("Neha", "Baner", "Pune"),
-    ->  ("Kiran", "Wakad", "Pune");
-Query OK, 3 rows affected (0.00 sec)
-Records: 3  Duplicates: 0  Warnings: 0
-
-mysql>
-mysql> INSERT INTO borrower
-    ->  VALUES("Amit", 12001),
-    ->  ("Neha", 12002),
-    ->  ("Kiran", 15000);
-Query OK, 3 rows affected (0.00 sec)
-Records: 3  Duplicates: 0  Warnings: 0
-
-mysql>
-mysql> INSERT INTO account
-    ->  VALUES(345246600001, "AKRUDI", 120000),
-    ->  (345246600002, "AKRUDI", 95000),
-    ->  (345246600003, "SUNCITY", 110000);
-Query OK, 3 rows affected (0.00 sec)
-Records: 3  Duplicates: 0  Warnings: 0
+    ->  VALUES(10995001, "BANDRA", 1400),
+    ->  (10995002, "BANDRA", 25000),
+    ->  (10995003, "ANDHERI", 1350),
+    ->  (10995004, "ANDHERI", 45000),
+    ->  (10995005, "AKRUDI", 13500);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
 
 mysql>
 mysql> INSERT INTO depositor
-    ->  VALUES("Amit", 345246600001),
-    ->  ("Neha", 345246600002),
-    ->  ("Kiran", 345246600003);
-Query OK, 3 rows affected (0.00 sec)
-Records: 3  Duplicates: 0  Warnings: 0
+    ->  VALUES("Priya", 345245600001),
+    ->  ("Rohit", 345245600002),
+    ->  ("Pooja", 345245600003),
+    ->  ("Prasad", 345245600004),
+    ->  ("Sneha", 345245600005),
+    ->  ("Rajesh", 345245600006);
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> INSERT INTO borrower
+    ->  VALUES("Priya", 10995001),
+    ->  ("Rohit", 10995002),
+    ->  ("Pooja", 10995003),
+    ->  ("Prasad", 10995004),
+    ->  ("Rushi", 10995005);
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql>
+mysql> -- 1. Find the names of all branches in loan relation.
+mysql> SELECT branch_name
+    ->  FROM loan;
++-------------+
+| branch_name |
++-------------+
+| AKRUDI      |
+| AKRUDI      |
+| AKRUDI      |
+| AKRUDI      |
+| ANDHERI     |
+| ANDHERI     |
+| BANDRA      |
+| BANDRA      |
+| SUNCITY     |
+| SUNCITY     |
+| SUNCITY     |
++-------------+
+11 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 2. Find all loan numbers for loans made at Akurdi Branch with loan amount > 12000.
+mysql> SELECT loan_no
+    ->  FROM loan
+    ->  WHERE amount > 12000 AND branch_name = "AKRUDI";
++----------+
+| loan_no  |
++----------+
+| 10994002 |
+| 10995005 |
++----------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 3. Find all customers who have a loan from bank. Find their names, loan_no and loan amount.
+mysql> SELECT loan.loan_no, loan.amount, borrower.cust_name
+    ->  FROM loan, borrower
+    ->  WHERE loan.loan_no = borrower.loan_no;
++----------+--------+-----------+
+| loan_no  | amount | cust_name |
++----------+--------+-----------+
+| 10992001 |  15000 | Ved       |
+| 10992002 |  70000 | Manavi    |
+| 10992003 | 643000 | Atrava    |
+| 10994001 |   7500 | Chitanaya |
+| 10994002 | 980000 | Vaibhav   |
+| 10994003 |   4500 | Tejas     |
+| 10995001 |   1400 | Priya     |
+| 10995002 |  25000 | Rohit     |
+| 10995003 |   1350 | Pooja     |
+| 10995004 |  45000 | Prasad    |
+| 10995005 |  13500 | Rushi     |
++----------+--------+-----------+
+11 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 4. List all customers in alphabetical order who have loan from Akurdi branch.
+mysql> SELECT borrower.cust_name
+    ->  FROM borrower, loan
+    ->  WHERE loan.branch_name = "AKRUDI" AND loan.loan_no = borrower.loan_no
+    ->  ORDER BY cust_name ASC;
++-----------+
+| cust_name |
++-----------+
+| Chitanaya |
+| Rushi     |
+| Tejas     |
+| Vaibhav   |
++-----------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 5. Find all customers who have an account or loan or both at bank.
+mysql> SELECT cust_name FROM depositor
+    -> UNION
+    -> SELECT cust_name FROM borrower;
++-----------+
+| cust_name |
++-----------+
+| Aditya    |
+| Atrava    |
+| Chitanaya |
+| Harsh     |
+| Manavi    |
+| Pooja     |
+| Prasad    |
+| Priya     |
+| Rajesh    |
+| Rohit     |
+| Rushi     |
+| Sartak    |
+| Sneha     |
+| Tejas     |
+| Vaibhav   |
+| Ved       |
++-----------+
+16 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 6. Find all customers who have both account and loan at bank.
+mysql> SELECT depositor.cust_name
+    ->  FROM depositor, borrower
+    ->  WHERE depositor.cust_name = borrower.cust_name;
++-----------+
+| cust_name |
++-----------+
+| Atrava    |
+| Chitanaya |
+| Manavi    |
+| Pooja     |
+| Prasad    |
+| Priya     |
+| Rohit     |
+| Rushi     |
+| Tejas     |
+| Vaibhav   |
+| Ved       |
++-----------+
+11 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 7. Find all customers who have account but no loan at the bank.
+mysql> SELECT cust_name
+    ->  FROM depositor
+    ->  WHERE cust_name NOT IN (SELECT cust_name FROM borrower);
++-----------+
+| cust_name |
++-----------+
+| Aditya    |
+| Harsh     |
+| Rajesh    |
+| Sartak    |
+| Sneha     |
++-----------+
+5 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 8. Find the average account balance at each branch.
+mysql> SELECT branch_name, AVG(balance)
+    ->  FROM account
+    ->  GROUP BY branch_name;
++-------------+--------------+
+| branch_name | AVG(balance) |
++-------------+--------------+
+| AKRUDI      |  227606.6000 |
+| ANDHERI     |   38666.6667 |
+| BANDRA      |   93000.0000 |
+| SUNCITY     |  166848.6000 |
++-------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 9. Find no. of depositors at each branch.
+mysql> SELECT COUNT(depositor.account_number) AS num_depositors, account.branch_name
+    ->  FROM depositor, account
+    ->  WHERE depositor.account_number = account.account_number
+    ->  GROUP BY account.branch_name;
++----------------+-------------+
+| num_depositors | branch_name |
++----------------+-------------+
+|              5 | AKRUDI      |
+|              5 | SUNCITY     |
+|              3 | BANDRA      |
+|              3 | ANDHERI     |
++----------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 10. Find name of Customer and city where customer name starts with Letter P.
+mysql> SELECT cust_name, cust_city
+    ->  FROM customer
+    ->  WHERE cust_name LIKE "P%";
++-----------+-----------+
+| cust_name | cust_city |
++-----------+-----------+
+| Pooja     | Mumbai    |
+| Prasad    | Mumbai    |
+| Priya     | Mumbai    |
++-----------+-----------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 11. Display distinct cities of branch.
+mysql> SELECT DISTINCT branch_city
+    ->  FROM branch;
++-------------+
+| branch_city |
++-------------+
+| PUNE        |
+| MUMBAI      |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 12. Find the branches where average account balance > 12000.
+mysql> SELECT branch_name, AVG(balance) AS avg_balance
+    ->  FROM account
+    ->  GROUP BY branch_name
+    ->  HAVING AVG(balance) > 12000;
++-------------+-------------+
+| branch_name | avg_balance |
++-------------+-------------+
+| AKRUDI      | 227606.6000 |
+| ANDHERI     |  38666.6667 |
+| BANDRA      |  93000.0000 |
+| SUNCITY     | 166848.6000 |
++-------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> -- 13. Find number of tuples in customer relation.
+mysql> SELECT COUNT(*) AS total_customers
+    ->  FROM customer;
++-----------------+
+| total_customers |
++-----------------+
+|              16 |
++-----------------+
+1 row in set (0.01 sec)
+
+mysql>
+mysql> -- 14. Calculate total loan amount given by bank.
+mysql> SELECT SUM(amount) AS total_loan_amount
+    ->  FROM loan;
++-------------------+
+| total_loan_amount |
++-------------------+
+|           1806250 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> -- 15. Delete all loans with loan amount between 1300 and 1500.
+mysql> DELETE borrower FROM borrower
+    -> JOIN loan ON borrower.loan_no = loan.loan_no
+    -> WHERE loan.amount BETWEEN 1300 AND 1500;
+Query OK, 2 rows affected (0.00 sec)
+
+mysql>
+mysql> DELETE FROM loan
+    -> WHERE amount BETWEEN 1300 AND 1500;
+Query OK, 2 rows affected (0.00 sec)
+
+mysql>
+mysql> -- 16. Delete all tuples at every branch located in Mumbai.
+mysql> DELETE depositor FROM depositor
+    -> JOIN account ON depositor.account_number = account.account_number
+    -> JOIN branch ON account.branch_name = branch.branch_name
+    -> WHERE branch.branch_city = 'MUMBAI';
+Query OK, 6 rows affected (0.00 sec)
+
+mysql>
+mysql> DELETE borrower FROM borrower
+    -> JOIN loan ON borrower.loan_no = loan.loan_no
+    -> JOIN branch ON loan.branch_name = branch.branch_name
+    -> WHERE branch.branch_city = 'MUMBAI';
+Query OK, 2 rows affected (0.00 sec)
+
+mysql>
+mysql> DELETE FROM account
+    -> WHERE branch_name IN (SELECT branch_name FROM branch WHERE branch_city = 'MUMBAI');
+Query OK, 6 rows affected (0.00 sec)
+
+mysql>
+mysql> DELETE FROM loan
+    -> WHERE branch_name IN (SELECT branch_name FROM branch WHERE branch_city = 'MUMBAI');
+Query OK, 2 rows affected (0.00 sec)
+
+mysql>
+mysql> DELETE FROM branch
+    -> WHERE branch_city = 'MUMBAI';
+Query OK, 2 rows affected (0.00 sec)
 
 mysql>
 mysql> SELECT * FROM branch;
@@ -357,10 +649,9 @@ mysql> SELECT * FROM branch;
 | branch_name | branch_city | assets    |
 +-------------+-------------+-----------+
 | AKRUDI      | PUNE        |  50000000 |
-| NIGDI       | NIGDI       |  75000000 |
 | SUNCITY     | PUNE        | 100000000 |
 +-------------+-------------+-----------+
-3 rows in set (0.00 sec)
+2 rows in set (0.00 sec)
 
 mysql> SELECT * FROM account;
 +----------------+-------------+---------+
@@ -376,64 +667,45 @@ mysql> SELECT * FROM account;
 |   345243200003 | SUNCITY     |    7998 |
 |   345243200004 | SUNCITY     |  125448 |
 |   345243200005 | SUNCITY     |   21542 |
-|   345244400001 | NIGDI       |   25000 |
-|   345244400002 | NIGDI       |  150000 |
-|   345244400003 | NIGDI       |   89000 |
-|   345245500001 | SUNCITY     |   45000 |
-|   345245500002 | AKRUDI      |   78000 |
-|   345245500003 | NIGDI       |   32000 |
-|   345246600001 | AKRUDI      |  120000 |
-|   345246600002 | AKRUDI      |   95000 |
-|   345246600003 | SUNCITY     |  110000 |
 +----------------+-------------+---------+
-19 rows in set (0.00 sec)
+10 rows in set (0.00 sec)
 
 mysql> SELECT * FROM customer;
-+-----------+-------------+-----------+
-| cust_name | cust_street | cust_city |
-+-----------+-------------+-----------+
-| Aditya    | KasbaPeth   | Pune      |
-| Amit      | Pimple      | Pune      |
-| Atrava    | Wadia       | Pune      |
-| Chitanaya | ShinwarPeth | Pune      |
-| Harsh     | Koregoan    | Pune      |
-| Kiran     | Wakad       | Pune      |
-| Manavi    | Gulhmore    | Pune      |
-| Neha      | Baner       | Pune      |
-| Pooja     | Deccan      | Pune      |
-| Prakash   | Viman       | Pune      |
-| Pranav    | Kothrud     | Pune      |
-| Priya     | Nigdi       | Pune      |
-| Rohit     | Nigdi       | Pune      |
-| Rushi     | Nanded      | Pune      |
-| Sartak    | FC          | Pune      |
-| Sneha     | Nigdi       | Pune      |
-| Tejas     | Akurdi      | Pune      |
-| Vaibhav   | Yerawada    | Pune      |
-| Ved       | Suncity     | Pune      |
-+-----------+-------------+-----------+
-19 rows in set (0.00 sec)
++-----------+--------------+-----------+
+| cust_name | cust_street  | cust_city |
++-----------+--------------+-----------+
+| Aditya    | KasbaPeth    | Pune      |
+| Atrava    | Wadia        | Pune      |
+| Chitanaya | ShinwarPeth  | Pune      |
+| Harsh     | Koregoan     | Pune      |
+| Manavi    | Gulhmore     | Pune      |
+| Pooja     | Andheri East | Mumbai    |
+| Prasad    | Worli        | Mumbai    |
+| Priya     | Marine Drive | Mumbai    |
+| Rajesh    | Thane        | Mumbai    |
+| Rohit     | Bandra West  | Mumbai    |
+| Rushi     | Nanded       | Pune      |
+| Sartak    | FC           | Pune      |
+| Sneha     | Powai        | Mumbai    |
+| Tejas     | Akurdi       | Pune      |
+| Vaibhav   | Yerawada     | Pune      |
+| Ved       | Suncity      | Pune      |
++-----------+--------------+-----------+
+16 rows in set (0.00 sec)
 
 mysql> SELECT * FROM loan;
 +----------+-------------+--------+
 | loan_no  | branch_name | amount |
 +----------+-------------+--------+
-|    12001 | AKRUDI      |  50000 |
-|    12002 | AKRUDI      |  75000 |
-|    15000 | SUNCITY     | 100000 |
 | 10992001 | SUNCITY     |  15000 |
 | 10992002 | SUNCITY     |  70000 |
 | 10992003 | SUNCITY     | 643000 |
 | 10994001 | AKRUDI      |   7500 |
 | 10994002 | AKRUDI      | 980000 |
 | 10994003 | AKRUDI      |   4500 |
-| 10996001 | NIGDI       |  25000 |
-| 10996002 | NIGDI       | 120000 |
-| 10997001 | SUNCITY     |   1350 |
-| 10997002 | AKRUDI      |   1420 |
-| 10997003 | NIGDI       |   1380 |
+| 10995005 | AKRUDI      |  13500 |
 +----------+-------------+--------+
-14 rows in set (0.00 sec)
+7 rows in set (0.00 sec)
 
 mysql> SELECT * FROM depositor;
 +-----------+----------------+
@@ -449,14 +721,8 @@ mysql> SELECT * FROM depositor;
 | Vaibhav   |   345242300003 |
 | Rushi     |   345242300004 |
 | Sartak    |   345242300005 |
-| Priya     |   345244400001 |
-| Rohit     |   345244400002 |
-| Sneha     |   345244400003 |
-| Amit      |   345246600001 |
-| Neha      |   345246600002 |
-| Kiran     |   345246600003 |
 +-----------+----------------+
-16 rows in set (0.00 sec)
+10 rows in set (0.00 sec)
 
 mysql> SELECT * FROM borrower;
 +-----------+----------+
@@ -468,275 +734,6 @@ mysql> SELECT * FROM borrower;
 | Chitanaya | 10994001 |
 | Vaibhav   | 10994002 |
 | Tejas     | 10994003 |
-| Priya     | 10996001 |
-| Rohit     | 10996002 |
-| Pranav    | 10997001 |
-| Pooja     | 10997002 |
-| Prakash   | 10997003 |
-| Amit      |    12001 |
-| Neha      |    12002 |
-| Kiran     |    15000 |
+| Rushi     | 10995005 |
 +-----------+----------+
-14 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT branch_name
-    ->  FROM loan;
-+-------------+
-| branch_name |
-+-------------+
-| AKRUDI      |
-| AKRUDI      |
-| AKRUDI      |
-| AKRUDI      |
-| AKRUDI      |
-| AKRUDI      |
-| NIGDI       |
-| NIGDI       |
-| NIGDI       |
-| SUNCITY     |
-| SUNCITY     |
-| SUNCITY     |
-| SUNCITY     |
-| SUNCITY     |
-+-------------+
-14 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT loan_no
-    ->  FROM loan
-    ->  WHERE loan_no > 12000 AND branch_name = "AKRUDI";
-+----------+
-| loan_no  |
-+----------+
-|    12001 |
-|    12002 |
-| 10994001 |
-| 10994002 |
-| 10994003 |
-| 10997002 |
-+----------+
-6 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT loan.loan_no, loan.amount, borrower.cust_name
-    ->  FROM loan, borrower
-    ->  WHERE loan.loan_no = borrower.loan_no;
-+----------+--------+-----------+
-| loan_no  | amount | cust_name |
-+----------+--------+-----------+
-|    12001 |  50000 | Amit      |
-|    12002 |  75000 | Neha      |
-|    15000 | 100000 | Kiran     |
-| 10992001 |  15000 | Ved       |
-| 10992002 |  70000 | Manavi    |
-| 10992003 | 643000 | Atrava    |
-| 10994001 |   7500 | Chitanaya |
-| 10994002 | 980000 | Vaibhav   |
-| 10994003 |   4500 | Tejas     |
-| 10996001 |  25000 | Priya     |
-| 10996002 | 120000 | Rohit     |
-| 10997001 |   1350 | Pranav    |
-| 10997002 |   1420 | Pooja     |
-| 10997003 |   1380 | Prakash   |
-+----------+--------+-----------+
-14 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT borrower.cust_name
-    ->  FROM borrower, loan
-    ->  WHERE loan.branch_name = "AKRUDI" AND loan.loan_no = borrower.loan_no
-    ->  ORDER BY cust_name ASC;
-+-----------+
-| cust_name |
-+-----------+
-| Amit      |
-| Chitanaya |
-| Neha      |
-| Pooja     |
-| Tejas     |
-| Vaibhav   |
-+-----------+
-6 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT depositor.cust_name, borrower.cust_name
-    ->  FROM depositor, borrower
-    ->  WHERE depositor.cust_name = borrower.cust_name;
-+-----------+-----------+
-| cust_name | cust_name |
-+-----------+-----------+
-| Amit      | Amit      |
-| Atrava    | Atrava    |
-| Chitanaya | Chitanaya |
-| Kiran     | Kiran     |
-| Manavi    | Manavi    |
-| Neha      | Neha      |
-| Priya     | Priya     |
-| Rohit     | Rohit     |
-| Tejas     | Tejas     |
-| Vaibhav   | Vaibhav   |
-| Ved       | Ved       |
-+-----------+-----------+
-11 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT cust_name
-    ->  FROM depositor
-    ->  WHERE cust_name NOT IN (SELECT cust_name FROM borrower);
-+-----------+
-| cust_name |
-+-----------+
-| Aditya    |
-| Harsh     |
-| Rushi     |
-| Sartak    |
-| Sneha     |
-+-----------+
-5 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT cust_name
-    ->  FROM borrower
-    ->  WHERE cust_name NOT IN (SELECT cust_name FROM depositor);
-+-----------+
-| cust_name |
-+-----------+
-| Pooja     |
-| Prakash   |
-| Pranav    |
-+-----------+
-3 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT branch_name, AVG(balance)
-    ->  FROM account
-    ->  WHERE branch_name IN (SELECT DISTINCT branch_name FROM branch)
-    ->  GROUP BY branch_name;
-+-------------+--------------+
-| branch_name | AVG(balance) |
-+-------------+--------------+
-| AKRUDI      |  178879.1250 |
-| NIGDI       |   74000.0000 |
-| SUNCITY     |  141320.4286 |
-+-------------+--------------+
-3 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT COUNT(depositor.account_number) as account_count, account.branch_name
-    ->  FROM depositor, account
-    ->  WHERE depositor.account_number = account.account_number
-    ->    AND branch_name IN (SELECT DISTINCT branch_name FROM account)
-    ->  GROUP BY branch_name;
-+---------------+-------------+
-| account_count | branch_name |
-+---------------+-------------+
-|             7 | AKRUDI      |
-|             6 | SUNCITY     |
-|             3 | NIGDI       |
-+---------------+-------------+
-3 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT cust_name, cust_city
-    ->  FROM customer
-    ->  WHERE cust_name LIKE "P%";
-+-----------+-----------+
-| cust_name | cust_city |
-+-----------+-----------+
-| Pooja     | Pune      |
-| Prakash   | Pune      |
-| Pranav    | Pune      |
-| Priya     | Pune      |
-+-----------+-----------+
-4 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT DISTINCT branch_city
-    ->  FROM branch;
-+-------------+
-| branch_city |
-+-------------+
-| PUNE        |
-| NIGDI       |
-+-------------+
-2 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT branch_name, AVG(balance)
-    ->  FROM account
-    ->  GROUP BY branch_name
-    ->  HAVING AVG(balance) > 12000 AND branch_name IN (SELECT DISTINCT branch_name FROM branch);
-+-------------+--------------+
-| branch_name | AVG(balance) |
-+-------------+--------------+
-| AKRUDI      |  178879.1250 |
-| NIGDI       |   74000.0000 |
-| SUNCITY     |  141320.4286 |
-+-------------+--------------+
-3 rows in set (0.00 sec)
-
-mysql>
-mysql> SELECT COUNT(*)
-    ->  FROM customer;
-+----------+
-| COUNT(*) |
-+----------+
-|       19 |
-+----------+
-1 row in set (0.00 sec)
-
-mysql>
-mysql> SELECT SUM(amount)
-    ->  FROM loan;
-+-------------+
-| SUM(amount) |
-+-------------+
-|     2094150 |
-+-------------+
-1 row in set (0.00 sec)
-
-mysql>
-mysql> DELETE borrower FROM borrower
-    -> INNER JOIN loan ON borrower.loan_no = loan.loan_no
-    -> WHERE loan.amount BETWEEN 1300 AND 1500;
-Query OK, 3 rows affected (0.00 sec)
-
-mysql>
-mysql> DELETE FROM loan
-    -> WHERE amount BETWEEN 1300 AND 1500;
-Query OK, 3 rows affected (0.00 sec)
-
-mysql>
-mysql> DELETE borrower FROM borrower
-    -> INNER JOIN loan ON borrower.loan_no = loan.loan_no
-    -> INNER JOIN branch ON loan.branch_name = branch.branch_name
-    -> WHERE branch.branch_city = 'NIGDI';
-Query OK, 2 rows affected (0.00 sec)
-
-mysql>
-mysql> DELETE depositor FROM depositor
-    -> INNER JOIN account ON depositor.account_number = account.account_number
-    -> INNER JOIN branch ON account.branch_name = branch.branch_name
-    -> WHERE branch.branch_city = 'NIGDI';
-Query OK, 3 rows affected (0.00 sec)
-
-mysql>
-mysql> DELETE FROM loan
-    -> WHERE branch_name IN (SELECT branch_name FROM branch WHERE branch_city = 'NIGDI');
-Query OK, 2 rows affected (0.00 sec)
-
-mysql>
-mysql> DELETE FROM account
-    -> WHERE branch_name IN (SELECT branch_name FROM branch WHERE branch_city = 'NIGDI');
-Query OK, 4 rows affected (0.00 sec)
-
-mysql>
-mysql> DELETE FROM customer
-    -> WHERE cust_city = 'NIGDI';
-Query OK, 0 rows affected (0.00 sec)
-
-mysql>
-mysql> DELETE FROM branch
-    -> WHERE branch_city = 'NIGDI';
-Query OK, 1 row affected (0.00 sec)
+7 rows in set (0.00 sec)
