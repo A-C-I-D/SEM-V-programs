@@ -257,3 +257,87 @@ SHOW INDEX FROM loan;
  DROP TABLE depositor;
  
 TRUNCATE TABLE customer;
+
+---------------
+CREATE DATABASE company;
+use company;
+
+CREATE TABLE Companies (
+	comp_id varchar(4),
+	name varchar(4),
+	cost int(4),
+	year int(4)
+);
+
+INSERT INTO Companies
+	VALUES ("C001", "ONGC", 2000, 2010),
+	("C002", "HPCL", 2500, 2012),
+	("C004", "IOCL", 1000, 2014),
+	("C005", "BHEL", 3000, 2015);
+
+CREATE TABLE Orders (
+	comp_id varchar(4),
+	domain varchar(7),
+	quantity int(3)
+);
+
+INSERT INTO Orders
+	VALUES ("C001", "Oil", 109),
+	("C002", "Gas", 121),
+	("C005", "Telecom", 115);
+	
+-- 1. Find names, costs, domains & quantities for companies using inner join.	
+SELECT Companies.name, Companies.cost, Orders.domain, Orders.quantity
+FROM Companies
+INNER JOIN Orders
+ON Companies.comp_id = Orders.comp_id;
+
+-- 2. Find names, costs, domains & quantities for companies using left outer join.	
+SELECT Companies.name, Companies.cost, Orders.domain, Orders.quantity
+FROM Companies
+LEFT OUTER JOIN Orders
+ON Companies.comp_id = Orders.comp_id;
+
+-- 3. Find names, costs, domains & quantities for companies using right outer join.	
+SELECT Companies.name, Companies.cost, Orders.domain, Orders.quantity
+FROM Companies
+RIGHT OUTER JOIN Orders
+ON Companies.comp_id = Orders.comp_id;
+
+-- 4. Find names, costs, domains & quantities for companies using union operator.	
+SELECT Companies.name, Companies.cost, Orders.domain, Orders.quantity
+FROM Companies
+RIGHT JOIN Orders
+ON Companies.comp_id = Orders.comp_id
+UNION 
+SELECT Companies.name, Companies.cost, Orders.domain, Orders.quantity
+FROM Companies
+LEFT JOIN Orders
+ON Companies.comp_id = Orders.comp_id;
+
+-- 5. Create View View1 by selecting both tables to show company name & quantities.
+CREATE VIEW View1 AS
+	SELECT Companies.name, Orders.quantity
+	FROM Companies, Orders
+	WHERE Companies.comp_id = Orders.comp_id;
+
+-- 6. Create View2 on Company table by selecting any two column & perform insert, update, delete operation.
+CREATE VIEW View2 AS
+	SELECT comp_id, name
+	FROM Companies;
+
+INSERT INTO View2
+	Values("C003", "SHEL"),
+	("C004", "MNGL");
+	
+UPDATE View2
+	SET name = "SPLC"
+	WHERE name = "SHEL";
+
+DELETE FROM View2
+	WHERE comp_id = "C006";
+
+-- 7. Display content of View1, View2.
+SELECT * FROM View1;
+
+SELECT * FROM View2;
