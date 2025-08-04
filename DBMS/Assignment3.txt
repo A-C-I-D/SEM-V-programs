@@ -231,3 +231,29 @@ SELECT * FROM View3;
     FROM depositor
     LEFT JOIN borrower
     ON borrower.cust_name = depositor.cust_name;
+    
+-- 5 Display content of View1, View2, View3
+SELECT * FROM View1;
+
+SELECT * FROM View2;
+
+SELECT * FROM View3;
+
+-- 6. Create Simple & Unique index.
+CREATE INDEX account 
+	ON account(account_number);
+
+CREATE UNIQUE INDEX loan
+	on loan(loan_no);
+
+-- 7. Display Index information
+SHOW INDEX FROM account;
+
+SHOW INDEX FROM loan;
+
+-- 8. Truncate table customer.
+ DROP TABLE borrower;
+ 
+ DROP TABLE depositor;
+ 
+TRUNCATE TABLE customer;
