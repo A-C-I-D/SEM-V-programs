@@ -1,0 +1,196 @@
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Sun Sep 14 17:15:41 2025
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password:
+Last Successful login time: Sun Sep 14 2025 17:15:17 +05:30
+
+Connected to:
+Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL> CREATE TABLE Borrower(
+  2      Roll_no INT PRIMARY KEY,
+  3      Name VARCHAR2(20),
+  4      Date_of_Issue DATE,
+  5      Name_of_Book VARCHAR2(50),
+  6      Status CHAR(1)
+  7  );
+
+Table created.
+
+SQL>
+SQL> CREATE TABLE Fine(
+  2      Roll_no INT,
+  3      Date_of_Fine DATE,
+  4      Amt INT,
+  5      FOREIGN KEY (Roll_no) REFERENCES Borrower(Roll_no)
+  6  );
+
+Table created.
+
+SQL> INSERT INTO Borrower VALUES (1, 'Rohan Patil', TO_DATE('2025-08-20', 'YYYY-MM-DD'), 'DBMS Concepts', 'I');
+
+1 row created.
+
+SQL> INSERT INTO Borrower VALUES (2, 'Sneha Kulkarni', TO_DATE('2025-07-25', 'YYYY-MM-DD'), 'Operating Systems', 'I');
+
+1 row created.
+
+SQL> INSERT INTO Borrower VALUES (3, 'Amit Sharma', TO_DATE('2025-09-01', 'YYYY-MM-DD'), 'Computer Networks', 'I');
+
+1 row created.
+
+SQL> INSERT INTO Borrower VALUES (4, 'Priya Deshmukh', TO_DATE('2025-06-15', 'YYYY-MM-DD'), 'Java Programming', 'I');
+
+1 row created.
+
+SQL> INSERT INTO Borrower VALUES (5, 'Vikram Joshi', TO_DATE('2025-08-30', 'YYYY-MM-DD'), 'Data Structures', 'I');
+
+1 row created.
+
+SQL> SET SERVEROUTPUT ON;
+SQL>
+SQL> DECLARE
+  2    -- use table%TYPE where possible
+  3    roll        Borrower.Roll_no%TYPE := &roll_no;
+  4    name_book   Borrower.Name_of_Book%TYPE := '&Name_Of_The_Book';
+  5    date_issue  Borrower.Date_of_Issue%TYPE;
+  6    fine        NUMBER := 0;
+  7    totalDays   NUMBER;
+  8  BEGIN
+  9    SELECT Date_of_Issue
+ 10      INTO date_issue
+ 11      FROM Borrower
+ 12     WHERE Roll_no = roll
+ 13       AND Name_of_Book = name_book;
+ 14
+ 15    totalDays := TRUNC(SYSDATE) - TRUNC(date_issue);
+ 16
+ 17    IF totalDays < 15 THEN
+ 18      DBMS_OUTPUT.PUT_LINE('No fine. Book returned within 15 days. (Days = ' || totalDays || ')');
+ 19      UPDATE Borrower
+ 20         SET Status = 'R'
+ 21       WHERE Roll_no = roll
+ 22         AND Name_of_Book = name_book;
+ 23
+ 24      INSERT INTO Fine (Roll_no, Date_of_Fine, Amt)
+ 25      VALUES (roll, SYSDATE, 0);
+ 26
+ 27    ELSIF totalDays BETWEEN 15 AND 30 THEN
+ 28      fine := (totalDays - 15) * 5;
+ 29      DBMS_OUTPUT.PUT_LINE('Fine is ' || TO_CHAR(fine) || ' Rs. (Days = ' || totalDays || ')');
+ 30
+ 31      UPDATE Borrower
+ 32         SET Status = 'R'
+ 33       WHERE Roll_no = roll
+ 34         AND Name_of_Book = name_book;
+ 35
+ 36      INSERT INTO Fine (Roll_no, Date_of_Fine, Amt)
+ 37      VALUES (roll, SYSDATE, ROUND(fine));
+ 38
+ 39    ELSE
+ 40      fine := (15 * 5) + ((totalDays - 30) * 50);
+ 41      DBMS_OUTPUT.PUT_LINE('Fine is ' || TO_CHAR(fine) || ' Rs. (Days = ' || totalDays || ')');
+ 42
+ 43      UPDATE Borrower
+ 44         SET Status = 'R'
+ 45       WHERE Roll_no = roll
+ 46         AND Name_of_Book = name_book;
+ 47
+ 48      INSERT INTO Fine (Roll_no, Date_of_Fine, Amt)
+ 49      VALUES (roll, SYSDATE, ROUND(fine));
+ 50    END IF;
+ 51
+ 52    COMMIT;
+ 53    DBMS_OUTPUT.PUT_LINE('Operation completed successfully.');
+ 54
+ 55  EXCEPTION
+ 56    WHEN NO_DATA_FOUND THEN
+ 57      DBMS_OUTPUT.PUT_LINE('No matching borrower record found for Roll_no=' || roll || ' and Book="' || name_book || '".');
+ 58    WHEN OTHERS THEN
+ 59      DBMS_OUTPUT.PUT_LINE('An unexpected error occurred: ' || SQLERRM);
+ 60  END;
+ 61  /
+Enter value for roll_no: 4
+old   3:   roll        Borrower.Roll_no%TYPE := &roll_no;
+new   3:   roll        Borrower.Roll_no%TYPE := 4;
+Enter value for name_of_the_book: Java Programming
+old   4:   name_book   Borrower.Name_of_Book%TYPE := '&Name_Of_The_Book';
+new   4:   name_book   Borrower.Name_of_Book%TYPE := 'Java Programming';
+Fine is 3125 Rs. (Days = 91)
+Operation completed successfully.
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM BORROWER;
+
+   ROLL_NO NAME                 DATE_OF_I
+---------- -------------------- ---------
+NAME_OF_BOOK                                       S
+-------------------------------------------------- -
+         1 Rohan Patil          20-AUG-25
+DBMS Concepts                                      I
+
+         2 Sneha Kulkarni       25-JUL-25
+Operating Systems                                  I
+
+         3 Amit Sharma          01-SEP-25
+Computer Networks                                  I
+
+
+   ROLL_NO NAME                 DATE_OF_I
+---------- -------------------- ---------
+NAME_OF_BOOK                                       S
+-------------------------------------------------- -
+         4 Priya Deshmukh       15-JUN-25
+Java Programming                                   R
+
+         5 Vikram Joshi         30-AUG-25
+Data Structures                                    I
+
+
+SQL> SELECT * FROM Fine;
+
+   ROLL_NO DATE_OF_F        AMT
+---------- --------- ----------
+         4 14-SEP-25       3125
+
+SQL> SET SERVEROUTPUT ON;
+SQL> DECLARE
+  2      r INT;
+  3      a FLOAT;
+  4  BEGIN
+  5      FOR r IN 5..9 LOOP
+  6          a := 3.14 * r * r;
+  7          INSERT INTO circle (radius, area) VALUES (r, a);
+  8          DBMS_OUTPUT.PUT_LINE('Radius: ' || r || ', Area: ' || a);
+  9      END LOOP;
+ 10      COMMIT;
+ 11      DBMS_OUTPUT.PUT_LINE('All records inserted successfully.');
+ 12
+ 13  END;
+ 14  /
+Radius: 5, Area: 78.5
+Radius: 6, Area: 113.04
+Radius: 7, Area: 153.86
+Radius: 8, Area: 200.96
+Radius: 9, Area: 254.34
+All records inserted successfully.
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM circle;
+
+    RADIUS       AREA
+---------- ----------
+         5       78.5
+         6     113.04
+         7     153.86
+         8     200.96
+         9     254.34
+
+SQL>

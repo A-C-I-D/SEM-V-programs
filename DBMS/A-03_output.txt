@@ -1,0 +1,198 @@
+mysql> CREATE DATABASE bank1;
+Query OK, 1 row affected
+
+mysql> USE bank1;
+Database changed
+
+mysql> CREATE TABLE account(
+    -> account_number bigint(20) PRIMARY KEY,
+    -> branch_name varchar(10),
+    -> balance int(10));
+Query OK, 0 rows affected
+
+mysql> CREATE TABLE branch(
+    -> branch_name varchar(10) PRIMARY KEY,
+    -> branch_city varchar(10) DEFAULT 'PUNE',
+    -> assets bigint(20));
+Query OK, 0 rows affected
+
+mysql> CREATE TABLE customer(
+    -> cust_name varchar(20) PRIMARY KEY,
+    -> cust_street varchar(15),
+    -> cust_city varchar(10));
+Query OK, 0 rows affected
+
+mysql> CREATE TABLE loan(
+    -> loan_no bigint(20) PRIMARY KEY,
+    -> branch_name varchar(10),
+    -> amount int(8));
+Query OK, 0 rows affected
+
+mysql> CREATE TABLE depositor(
+    -> cust_name varchar(20),
+    -> account_number bigint(20));
+Query OK, 0 rows affected
+
+mysql> CREATE TABLE borrower(
+    -> cust_name varchar(20),
+    -> loan_no bigint(20));
+Query OK, 0 rows affected
+
+mysql> ALTER TABLE account ADD FOREIGN KEY (branch_name) REFERENCES branch(branch_name);
+Query OK, 0 rows affected
+
+mysql> ALTER TABLE loan ADD FOREIGN KEY (branch_name) REFERENCES branch(branch_name);
+Query OK, 0 rows affected
+
+
+mysql> DESCRIBE account;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| account_number | bigint(20)  | NO   | PRI | NULL    |       |
+| branch_name    | varchar(10) | YES  |     | NULL    |       |
+| balance        | int(10)     | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+
+mysql> DESCRIBE branch;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| branch_name | varchar(10) | NO   | PRI | NULL    |       |
+| branch_city | varchar(10) | YES  |     | PUNE    |       |
+| assets      | bigint(20)  | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+
+mysql> DESCRIBE customer;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| cust_name  | varchar(20) | NO   | PRI | NULL    |       |
+| cust_street| varchar(15) | YES  |     | NULL    |       |
+| cust_city  | varchar(10) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+
+mysql> DESCRIBE loan;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| loan_no   | bigint(20)  | NO   | PRI | NULL    |       |
+| branch_name | varchar(10) | YES|     | NULL    |       |
+| amount    | int(8)      | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+mysql> DESCRIBE depositor;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| cust_name      | varchar(20) | YES  |     | NULL    |       |
+| account_number | bigint(20)  | YES  |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+
+mysql> DESCRIBE borrower;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| cust_name | varchar(20) | YES  |     | NULL    |       |
+| loan_no   | bigint(20)  | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+
+
+-- Insert data for branch, accounts, customers, etc.
+mysql> INSERT INTO branch VALUES("SUNCITY","PUNE",100000000);
+Query OK, 1 row affected
+
+mysql> INSERT INTO account VALUES
+    -> (345243200001,"SUNCITY",90031),
+    -> (345243200002,"SUNCITY",589224),
+    -> (345243200003,"SUNCITY",7998),
+    -> (345243200004,"SUNCITY",125448),
+    -> (345243200005,"SUNCITY",21542);
+Query OK, 5 rows affected
+
+mysql> INSERT INTO customer VALUES
+    -> ("Ved","Suncity","Pune"),
+    -> ("Atrava","Wadia","Pune"),
+    -> ("Aditya","KasbaPeth","Pune"),
+    -> ("Manavi","Gulhmore","Pune"),
+    -> ("Harsh","Koregoan","Pune");
+Query OK, 5 rows affected
+
+mysql> INSERT INTO loan VALUES
+    -> (10992001,"SUNCITY",15000),
+    -> (10992002,"SUNCITY",70000),
+    -> (10992003,"SUNCITY",643000);
+Query OK, 3 rows affected
+
+mysql> INSERT INTO depositor VALUES
+    -> ("Ved",345243200001),
+    -> ("Atrava",345243200002),
+    -> ("Aditya",345243200003),
+    -> ("Manavi",345243200004),
+    -> ("Harsh",345243200005);
+Query OK, 5 rows affected
+
+mysql> INSERT INTO borrower VALUES
+    -> ("Ved",10992001),
+    -> ("Manavi",10992002),
+    -> ("Atrava",10992003);
+Query OK, 3 rows affected
+
+
+mysql> SELECT * FROM branch;
++-------------+-------------+-----------+
+| branch_name | branch_city | assets    |
++-------------+-------------+-----------+
+| SUNCITY     | PUNE        | 100000000 |
++-------------+-------------+-----------+
+
+mysql> SELECT * FROM account;
++----------------+-------------+---------+
+| account_number | branch_name | balance |
++----------------+-------------+---------+
+| 345243200001   | SUNCITY     | 90031   |
+| 345243200002   | SUNCITY     | 589224  |
+| 345243200003   | SUNCITY     | 7998    |
+| 345243200004   | SUNCITY     | 125448  |
+| 345243200005   | SUNCITY     | 21542   |
++----------------+-------------+---------+
+
+mysql> SELECT * FROM customer;
++----------+------------+-----------+
+| cust_name| cust_street| cust_city |
++----------+------------+-----------+
+| Ved      | Suncity    | Pune      |
+| Atrava   | Wadia      | Pune      |
+| Aditya   | KasbaPeth  | Pune      |
+| Manavi   | Gulhmore   | Pune      |
+| Harsh    | Koregoan   | Pune      |
++----------+------------+-----------+
+
+mysql> SELECT * FROM loan;
++---------+-------------+--------+
+| loan_no | branch_name | amount |
++---------+-------------+--------+
+| 10992001| SUNCITY     | 15000  |
+| 10992002| SUNCITY     | 70000  |
+| 10992003| SUNCITY     | 643000 |
++---------+-------------+--------+
+
+mysql> SELECT * FROM depositor;
++----------+----------------+
+| cust_name| account_number |
++----------+----------------+
+| Ved      | 345243200001   |
+| Atrava   | 345243200002   |
+| Aditya   | 345243200003   |
+| Manavi   | 345243200004   |
+| Harsh    | 345243200005   |
++----------+----------------+
+
+mysql> SELECT * FROM borrower;
++----------+---------+
+| cust_name| loan_no |
++----------+---------+
+| Ved      | 10992001|
+| Manavi   | 10992002|
+| Atrava   | 10992003|
++----------+---------+
