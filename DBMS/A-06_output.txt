@@ -1,0 +1,182 @@
+Enter user-name: system
+Enter password:
+Last Successful login time: Sun Sep 14 2025 22:11:14 +05:30
+
+Connected to:
+Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL> CREATE TABLE Stud_Marks (
+  2      roll NUMBER PRIMARY KEY,
+  3      name VARCHAR2(10),
+  4      total_marks NUMBER
+  5  );
+
+Table created.
+
+SQL>
+SQL> CREATE TABLE Result (
+  2      roll NUMBER PRIMARY KEY,
+  3      name VARCHAR2(10),
+  4      class VARCHAR2(20)
+  5  );
+
+Table created.
+
+SQL>
+SQL> INSERT INTO Stud_Marks VALUES (1, 'Ved', 1200);
+
+1 row created.
+
+SQL> INSERT INTO Stud_Marks VALUES (2, 'Sarthak', 950);
+
+1 row created.
+
+SQL> INSERT INTO Stud_Marks VALUES (3, 'Sarvesh', 875);
+
+1 row created.
+
+SQL> INSERT INTO Stud_Marks VALUES (4, 'Athrava', 800);
+
+1 row created.
+
+SQL> INSERT INTO Stud_Marks VALUES (5, 'Aadi', 750);
+
+1 row created.
+
+SQL>
+SQL> SELECT * FROM Stud_Marks;
+
+      ROLL NAME       TOTAL_MARKS
+---------- ---------- -----------
+         1 Ved               1200
+         2 Sarthak            950
+         3 Sarvesh            875
+         4 Athrava            800
+         5 Aadi               750
+
+SQL>
+SQL> CREATE OR REPLACE PROCEDURE proc_Grade (
+  2      p_roll IN NUMBER,
+  3      p_name IN VARCHAR2,
+  4      p_marks IN NUMBER
+  5  ) AS
+  6      v_class VARCHAR2(20);
+  7  BEGIN
+  8      IF p_marks >= 990 AND p_marks <= 1500 THEN
+  9          v_class := 'Distinction';
+ 10      ELSIF p_marks >= 900 AND p_marks <= 989 THEN
+ 11          v_class := 'First Class';
+ 12      ELSIF p_marks >= 825 AND p_marks <= 899 THEN
+ 13          v_class := 'Higher Second Class';
+ 14      ELSIF p_marks >= 0 AND p_marks < 825 THEN
+ 15          v_class := 'Second Class';
+ 16      ELSE
+ 17          v_class := 'Invalid Marks';
+ 18      END IF;
+ 19
+ 20      BEGIN
+ 21          INSERT INTO Result (roll, name, class)
+ 22          VALUES (p_roll, p_name, v_class);
+ 23      EXCEPTION
+ 24          WHEN DUP_VAL_ON_INDEX THEN
+ 25              UPDATE Result
+ 26              SET name = p_name, class = v_class
+ 27              WHERE roll = p_roll;
+ 28      END;
+ 29
+ 30      DBMS_OUTPUT.PUT_LINE('Student: ' || p_name || ' classified as: ' || v_class);
+ 31
+ 32  EXCEPTION
+ 33      WHEN OTHERS THEN
+ 34          DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+ 35          ROLLBACK;
+ 36  END proc_Grade;
+ 37  /
+
+Procedure created.
+
+SQL>
+SQL> SELECT * FROM Result;
+
+no rows selected
+
+SQL>
+SQL> SET SERVEROUTPUT ON;
+SQL>
+SQL> DECLARE
+  2      CURSOR c_students IS
+  3          SELECT rownum as roll, name, total_marks
+  4          FROM Stud_Marks;
+  5
+  6      v_roll NUMBER;
+  7      v_name VARCHAR2(50);
+  8      v_marks NUMBER;
+  9  BEGIN
+ 10      DBMS_OUTPUT.PUT_LINE('Processing Student Grades');
+ 11
+ 12      FOR student_rec IN c_students LOOP
+ 13          proc_Grade(student_rec.roll, student_rec.name, student_rec.total_marks);
+ 14      END LOOP;
+ 15
+ 16      DBMS_OUTPUT.PUT_LINE('All students processed successfully!');
+ 17
+ 18  END;
+ 19  /
+Processing Student Grades
+Student: Ved classified as: Distinction
+Student: Sarthak classified as: First Class
+Student: Sarvesh classified as: Higher Second Class
+Student: Athrava classified as: Second Class
+Student: Aadi classified as: Second Class
+All students processed successfully!
+
+PL/SQL procedure successfully completed.
+
+SQL>
+SQL>
+SQL> SELECT * FROM Result ORDER BY roll;
+
+      ROLL NAME       CLASS
+---------- ---------- --------------------
+         1 Ved        Distinction
+         2 Sarthak    First Class
+         3 Sarvesh    Higher Second Class
+         4 Athrava    Second Class
+         5 Aadi       Second Class
+
+SQL>
+SQL> BEGIN
+  2      proc_Grade(6, 'Aditya', 1100);
+  3  END;
+  4  /
+Student: Aditya classified as: Distinction
+
+PL/SQL procedure successfully completed.
+
+SQL>
+SQL>
+SQL> DECLARE
+  2      v_roll NUMBER := 7;
+  3      v_name VARCHAR2(50) := 'Pranav';
+  4      v_marks NUMBER := 920;
+  5  BEGIN
+  6      proc_Grade(v_roll, v_name, v_marks);
+  7  END;
+  8  /
+Student: Pranav classified as: First Class
+
+PL/SQL procedure successfully completed.
+
+SQL>
+SQL> DROP TABLE Result;
+
+Table dropped.
+
+SQL> DROP TABLE Stud_Marks;
+
+Table dropped.
+
+SQL> DROP PROCEDURE proc_Grade;
+
+Procedure dropped.

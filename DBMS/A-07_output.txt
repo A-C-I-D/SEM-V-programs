@@ -1,0 +1,287 @@
+
+SQL*Plus: Release 21.0.0.0.0 - Production on Tue Sep 30 00:14:48 2025
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle.  All rights reserved.
+
+Enter user-name: system
+Enter password:
+Last Successful login time: Mon Sep 29 2025 23:58:36 +05:30
+
+Connected to:
+Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production
+Version 21.3.0.0.0
+
+SQL> CREATE TABLE O_RollCall (
+  2      roll_no NUMBER PRIMARY KEY,
+  3      student_name VARCHAR2(10),
+  4      class VARCHAR2(20),
+  5      attendance_date DATE
+  6  );
+
+Table created.
+
+SQL>
+SQL> CREATE TABLE N_RollCall (
+  2      roll_no NUMBER PRIMARY KEY,
+  3      student_name VARCHAR2(10),
+  4      class VARCHAR2(20),
+  5      attendance_date DATE
+  6  );
+
+Table created.
+
+SQL>
+SQL> INSERT INTO O_RollCall VALUES (101, 'Rajesh', 'CS-A', SYSDATE-5);
+
+1 row created.
+
+SQL> INSERT INTO O_RollCall VALUES (102, 'Priya', 'CS-A', SYSDATE-5);
+
+1 row created.
+
+SQL> INSERT INTO O_RollCall VALUES (103, 'Amit', 'CS-B', SYSDATE-5);
+
+1 row created.
+
+SQL> INSERT INTO O_RollCall VALUES (104, 'Sneha', 'CS-B', SYSDATE-5);
+
+1 row created.
+
+SQL> INSERT INTO O_RollCall VALUES (105, 'Vikram', 'CS-A', SYSDATE-5);
+
+1 row created.
+
+SQL>
+SQL>
+SQL> INSERT INTO N_RollCall VALUES (102, 'Priya', 'CS-A', SYSDATE);
+
+1 row created.
+
+SQL> INSERT INTO N_RollCall VALUES (104, 'Sneha', 'CS-B', SYSDATE);
+
+1 row created.
+
+SQL> INSERT INTO N_RollCall VALUES (106, 'Ved', 'CS-A', SYSDATE);
+
+1 row created.
+
+SQL> INSERT INTO N_RollCall VALUES (107, 'Sarvesh', 'CS-B', SYSDATE);
+
+1 row created.
+
+SQL> INSERT INTO N_RollCall VALUES (108, 'Yash', 'CS-A', SYSDATE);
+
+1 row created.
+
+SQL> INSERT INTO N_RollCall VALUES (109, 'Tanvi', 'CS-B', SYSDATE);
+
+1 row created.
+
+SQL>
+SQL> SET SERVEROUTPUT ON;
+SQL>
+SQL> DECLARE
+  2      CURSOR c_new_students (p_class VARCHAR2) IS
+  3          SELECT roll_no, student_name, class, attendance_date
+  4          FROM N_RollCall
+  5          WHERE class = p_class
+  6          ORDER BY roll_no;
+  7
+  8      v_roll_no NUMBER;
+  9      v_student_name VARCHAR2(50);
+ 10      v_class VARCHAR2(20);
+ 11      v_attendance_date DATE;
+ 12
+ 13      v_inserted_count NUMBER := 0;
+ 14      v_skipped_count NUMBER := 0;
+ 15      v_total_count NUMBER := 0;
+ 16
+ 17      v_exists NUMBER;
+ 18
+ 19  BEGIN
+ 20      DBMS_OUTPUT.PUT_LINE('MERGING N_RollCall INTO O_RollCall');
+ 21      DBMS_OUTPUT.PUT_LINE('');
+ 22
+ 23      DBMS_OUTPUT.PUT_LINE('Processing Class: CS-A');
+ 24      DBMS_OUTPUT.PUT_LINE('-------------------------------------------------');
+ 25
+ 26      FOR student_rec IN c_new_students('CS-A') LOOP
+ 27          v_total_count := v_total_count + 1;
+ 28
+ 29          SELECT COUNT(*)
+ 30          INTO v_exists
+ 31          FROM O_RollCall
+ 32          WHERE roll_no = student_rec.roll_no;
+ 33
+ 34          IF v_exists = 0 THEN
+ 35              INSERT INTO O_RollCall (roll_no, student_name, class, attendance_date)
+ 36              VALUES (student_rec.roll_no, student_rec.student_name,
+ 37                      student_rec.class, student_rec.attendance_date);
+ 38
+ 39              DBMS_OUTPUT.PUT_LINE('Inserted: Roll No ' || student_rec.roll_no ||
+ 40                                 ' - ' || student_rec.student_name);
+ 41              v_inserted_count := v_inserted_count + 1;
+ 42          ELSE
+ 43              DBMS_OUTPUT.PUT_LINE('Skipped: Roll No ' || student_rec.roll_no ||
+ 44                                 ' - ' || student_rec.student_name || ' (Already exists)');
+ 45              v_skipped_count := v_skipped_count + 1;
+ 46          END IF;
+ 47      END LOOP;
+ 48
+ 49      DBMS_OUTPUT.PUT_LINE('');
+ 50
+ 51      DBMS_OUTPUT.PUT_LINE('Processing Class: CS-B');
+ 52      DBMS_OUTPUT.PUT_LINE('-------------------------------------------------');
+ 53
+ 54      FOR student_rec IN c_new_students('CS-B') LOOP
+ 55          v_total_count := v_total_count + 1;
+ 56
+ 57          SELECT COUNT(*)
+ 58          INTO v_exists
+ 59          FROM O_RollCall
+ 60          WHERE roll_no = student_rec.roll_no;
+ 61
+ 62          IF v_exists = 0 THEN
+ 63              INSERT INTO O_RollCall (roll_no, student_name, class, attendance_date)
+ 64              VALUES (student_rec.roll_no, student_rec.student_name,
+ 65                      student_rec.class, student_rec.attendance_date);
+ 66
+ 67              DBMS_OUTPUT.PUT_LINE('Inserted: Roll No ' || student_rec.roll_no ||
+ 68                                 ' - ' || student_rec.student_name);
+ 69              v_inserted_count := v_inserted_count + 1;
+ 70          ELSE
+ 71              DBMS_OUTPUT.PUT_LINE('Skipped: Roll No ' || student_rec.roll_no ||
+ 72                                 ' - ' || student_rec.student_name || ' (Already exists)');
+ 73              v_skipped_count := v_skipped_count + 1;
+ 74          END IF;
+ 75      END LOOP;
+ 76
+ 77      DBMS_OUTPUT.PUT_LINE('');
+ 78      DBMS_OUTPUT.PUT_LINE('MERGE SUMMARY');
+ 79      DBMS_OUTPUT.PUT_LINE('Total Records Processed: ' || v_total_count);
+ 80      DBMS_OUTPUT.PUT_LINE('Records Inserted: ' || v_inserted_count);
+ 81      DBMS_OUTPUT.PUT_LINE('Records Skipped: ' || v_skipped_count);
+ 82
+ 83  EXCEPTION
+ 84      WHEN OTHERS THEN
+ 85          DBMS_OUTPUT.PUT_LINE('Error occurred: ' || SQLERRM);
+ 86  END;
+ 87  /
+MERGING N_RollCall INTO O_RollCall
+Processing Class: CS-A
+-------------------------------------------------
+Skipped: Roll No 102 - Priya (Already exists)
+Inserted: Roll No 106 - Ved
+Inserted: Roll No 108 - Yash
+Processing Class: CS-B
+-------------------------------------------------
+Skipped: Roll No 104 - Sneha (Already exists)
+Inserted: Roll No 107 - Sarvesh
+Inserted: Roll No 109 - Tanvi
+MERGE SUMMARY
+Total Records Processed: 6
+Records Inserted: 4
+Records Skipped: 2
+
+PL/SQL procedure successfully completed.
+
+SQL>
+SQL> DBMS_OUTPUT.PUT_LINE('');
+SP2-0734: unknown command beginning "DBMS_OUTPU..." - rest of line ignored.
+SQL> DBMS_OUTPUT.PUT_LINE('Final O_RollCall Table Contents:');
+SP2-0734: unknown command beginning "DBMS_OUTPU..." - rest of line ignored.
+SQL>
+SQL> SELECT * FROM O_RollCall ORDER BY roll_no;
+
+   ROLL_NO STUDENT_NA CLASS                ATTENDANC
+---------- ---------- -------------------- ---------
+       101 Rajesh     CS-A                 25-SEP-25
+       102 Priya      CS-A                 25-SEP-25
+       103 Amit       CS-B                 25-SEP-25
+       104 Sneha      CS-B                 25-SEP-25
+       105 Vikram     CS-A                 25-SEP-25
+       106 Ved        CS-A                 30-SEP-25
+       107 Sarvesh    CS-B                 30-SEP-25
+       108 Yash       CS-A                 30-SEP-25
+       109 Tanvi      CS-B                 30-SEP-25
+
+9 rows selected.
+
+SQL>
+SQL> DECLARE
+  2      CURSOR c_new_students (p_class VARCHAR2) IS
+  3          SELECT roll_no, student_name, class, attendance_date
+  4          FROM N_RollCall
+  5          WHERE class = p_class OR p_class IS NULL
+  6          ORDER BY class, roll_no;
+  7
+  8      CURSOR c_classes IS
+  9          SELECT DISTINCT class FROM N_RollCall ORDER BY class;
+ 10
+ 11      v_exists NUMBER;
+ 12      v_inserted NUMBER := 0;
+ 13      v_skipped NUMBER := 0;
+ 14
+ 15  BEGIN
+ 16      DBMS_OUTPUT.PUT_LINE('DYNAMIC MERGE - ALL CLASSES');
+ 17
+ 18      FOR class_rec IN c_classes LOOP
+ 19          DBMS_OUTPUT.PUT_LINE('');
+ 20          DBMS_OUTPUT.PUT_LINE('Processing Class: ' || class_rec.class);
+ 21          DBMS_OUTPUT.PUT_LINE('-------------------------------------------------');
+ 22
+ 23          FOR student_rec IN c_new_students(class_rec.class) LOOP
+ 24
+ 25              SELECT COUNT(*) INTO v_exists
+ 26              FROM O_RollCall
+ 27              WHERE roll_no = student_rec.roll_no;
+ 28
+ 29              IF v_exists = 0 THEN
+ 30                  INSERT INTO O_RollCall VALUES (
+ 31                      student_rec.roll_no,
+ 32                      student_rec.student_name,
+ 33                      student_rec.class,
+ 34                      student_rec.attendance_date
+ 35                  );
+ 36                  DBMS_OUTPUT.PUT_LINE('✓ ' || student_rec.roll_no || ' - ' || student_rec.student_name);
+ 37                  v_inserted := v_inserted + 1;
+ 38              ELSE
+ 39                  DBMS_OUTPUT.PUT_LINE('✗ ' || student_rec.roll_no || ' - ' || student_rec.student_name || ' (Exists)');
+ 40                  v_skipped := v_skipped + 1;
+ 41              END IF;
+ 42          END LOOP;
+ 43      END LOOP;
+ 44
+ 45      COMMIT;
+ 46
+ 47      DBMS_OUTPUT.PUT_LINE('');
+ 48      DBMS_OUTPUT.PUT_LINE('Summary: ' || v_inserted || ' inserted, ' || v_skipped || ' skipped');
+ 49
+ 50  END;
+ 51  /
+DYNAMIC MERGE - ALL CLASSES
+Processing Class: CS-A
+-------------------------------------------------
+? 102 - Priya (Exists)
+? 106 - Ved (Exists)
+? 108 - Yash (Exists)
+Processing Class: CS-B
+-------------------------------------------------
+? 104 - Sneha (Exists)
+? 107 - Sarvesh (Exists)
+? 109 - Tanvi (Exists)
+Summary: 0 inserted, 6 skipped
+
+PL/SQL procedure successfully completed.
+
+SQL>
+SQL> DROP TABLE N_RollCall;
+
+Table dropped.
+
+SQL> DROP TABLE O_RollCall;
+
+Table dropped.
+
+SQL>
