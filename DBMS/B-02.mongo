@@ -1,0 +1,140 @@
+db.Employee.aggregate([
+    {
+        $group: {
+            _id: "$Designation",
+            TotalSalary: { $sum: "$Salary" }
+        }
+    },
+    {
+        $match: {
+            TotalSalary: { $gt: 200000 }
+        }
+    }
+]).pretty()
+
+db.Employee.aggregate([
+    {
+        $match: { Designation: "DBA" }
+    },
+    {
+        $unwind: "$Address"
+    },
+    {
+        $group: {
+            _id: "$Address.PAddr.city",
+            TotalSalary: { $sum: "$Salary" }
+        }
+    }
+]).pretty()
+
+db.Employee.aggregate([
+    {
+        $match: { Designation: "DBA" }
+    },
+    {
+        $group: {
+            _id: "$Company_name",
+            TotalSalary: { $sum: "$Salary" }
+        }
+    }
+]).pretty()
+
+db.Employee.aggregate([
+    {
+        $project: {
+            Name_Upper: {
+                $concat: [
+                    { $toUpper: "$Name.FName" },
+                    " ",
+                    { $toUpper: "$Name.LName" }
+                ]
+            }
+        }
+    },
+    {
+        $sort: { Name_Upper: 1 }
+    }
+]).pretty()
+
+db.Employee.aggregate([
+    {
+        $count: "TotalRecords"
+    }
+]).pretty()
+
+db.Employee.aggregate([
+    {
+        $group: {
+            _id: "$Designation",
+            AvgSal: { $avg: "$Salary" }
+        }
+    },
+    {
+        $sort: { AvgSal: 1 }
+    }
+]).pretty()
+
+db.Employee.aggregate([
+    {
+        $match: { "Name.FName": "Swapnil" }
+    },
+    {
+        $unwind: "$Expertise"
+    },
+    {
+        $project: {
+            Expertise: 1
+        }
+    }
+]).pretty()
+
+db.Employee.aggregate([
+    {
+        $unwind: "$Expertise"
+    },
+    {
+        $group: {
+            _id: "$Expertise",
+            Count: { $sum: 1 }
+        }
+    }
+]).pretty()
+
+db.Employee.aggregate([
+    {
+        $unwind: "$Address"
+    },
+    {
+        $match: { "Address.PAddr.city": "Pune" }
+    },
+    {
+        $group: {
+            _id: null,
+            Designations: { $addToSet: "$Designation" }
+        }
+    }
+]).pretty()
+
+db.Employee.aggregate([
+    {
+        $group: {
+            _id: "$Company_name",
+            MaxSalary: { $max: "$Salary" },
+            MinSalary: { $min: "$Salary" }
+        }
+    }
+]).pretty()
+
+db.Employee.createIndex({ Designation: 1 })
+
+db.Employee.createIndex({ "Name.FName": 1, Age: -1 })
+
+db.Employee.createIndex({ Expertise: 1 })
+
+db.Employee.getIndexes()
+
+db.Employee.reIndex()
+
+db.Employee.dropIndex({ Designation: 1 })
+
+db.Employee.dropIndexes()

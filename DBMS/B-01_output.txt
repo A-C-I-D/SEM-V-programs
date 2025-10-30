@@ -1,0 +1,798 @@
+Please enter a MongoDB connection string (Default: mongodb://localhost/): mongodb+srv://boxboxved:pass@cluster0.kt2gwgy.mongodb.net/?appName=Cluster0
+
+Current Mongosh Log ID: 6903c81c837cc22b4963b111
+Connecting to:          mongodb+srv://<credentials>@cluster0.kt2gwgy.mongodb.net/?appName=Cluster0
+Using MongoDB:          8.0.15
+Using Mongosh:          2.5.9
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+Atlas atlas-msx21u-shard-0 [primary] test> use Empdb
+switched to db Empdb
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.createCollection("Employee")
+{ ok: 1 }
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.insertMany([
+...     {
+...         Empid: 1,
+...         Name: { FName: "Rahul", LName: "Sharma" },
+...         Company_name: "TCS",
+...         Salary: 35000,
+...         Designation: "Programmer",
+...         Age: 28,
+...         Expertise: ["Java", "Python", "MongoDB"],
+...         DOB: "1997-03-15",
+...         Email: "rahul.sharma@tcs.com",
+...         Contact: "9876543210",
+...         Address: [
+...             { PAddr: { city: "Pune", Pin_code: "411001" } },
+...             { LAddr: { city: "Mumbai", Pin_code: "400001" } }
+...         ]
+...     },
+...     {
+...         Empid: 2,
+...         Name: { FName: "Priya", LName: "Patel" },
+...         Company_name: "Infosys",
+...         Salary: 45000,
+...         Designation: "Developer",
+...         Age: 32,
+...         Expertise: ["JavaScript", "React", "Node.js"],
+...         DOB: "1993-07-22",
+...         Email: "priya.patel@infosys.com",
+...         Contact: "9876543211",
+...         Address: [
+...             { PAddr: { city: "Bangalore", Pin_code: "560001" } },
+...             { LAddr: { city: "Delhi", Pin_code: "110001" } }
+...         ]
+...     },
+...     {
+...         Empid: 3,
+...         Name: { FName: "Amit", LName: "Kumar" },
+...         Company_name: "TCS",
+...         Salary: 28000,
+...         Designation: "Tester",
+...         Age: 26,
+...         Expertise: ["Selenium", "JUnit", "TestNG"],
+...         DOB: "1999-11-10",
+...         Email: "amit.kumar@tcs.com",
+...         Contact: "9876543212",
+...         Address: [
+...             { PAddr: { city: "Pune", Pin_code: "411001" } },
+...             { LAddr: { city: "Pune", Pin_code: "411038" } }
+...         ]
+...     },
+...     {
+...         Empid: 4,
+...         Name: { FName: "Sneha", LName: "Desai" },
+...         Company_name: "Wipro",
+...         Salary: 42000,
+...         Designation: "Programmer",
+...         Age: 29,
+...         Expertise: ["C++", "Python", "Docker"],
+...         DOB: "1996-05-18",
+...         Email: "sneha.desai@wipro.com",
+...         Contact: "9876543213",
+...         Address: [
+...             { PAddr: { city: "Hyderabad", Pin_code: "500001" } },
+...             { LAddr: { city: "Chennai", Pin_code: "600001" } }
+...         ]
+...     },
+...     {
+...         Empid: 5,
+...         Name: { FName: "Vikram", LName: "Singh" },
+...         Company_name: "Infosys",
+...         Salary: 38000,
+...         Designation: "Developer",
+...         Age: 27,
+...         Expertise: ["Angular", "TypeScript", "MongoDB"],
+...         DOB: "1998-01-25",
+...         Email: "vikram.singh@infosys.com",
+...         Contact: "9876543214",
+...         Address: [
+...             { PAddr: { city: "Pune", Pin_code: "411001" } },
+...             { LAddr: { city: "Nagpur", Pin_code: "440001" } }
+...         ]
+...     },
+...     {
+...         Empid: 6,
+...         Name: { FName: "Anjali", LName: "Mehta" },
+...         Company_name: "TCS",
+...         Salary: 31000,
+...         Designation: "Tester",
+...         Age: 24,
+...         Expertise: ["Manual Testing", "API Testing", "Postman"],
+...         DOB: "2001-09-08",
+...         Email: "anjali.mehta@tcs.com",
+...         Contact: "9876543215",
+...         Address: [
+...             { PAddr: { city: "Mumbai", Pin_code: "400020" } },
+...             { LAddr: { city: "Mumbai", Pin_code: "400050" } }
+...         ]
+...     },
+...     {
+...         Empid: 7,
+...         Name: { FName: "Rajesh", LName: "Verma" },
+...         Company_name: "Cognizant",
+...         Salary: 50000,
+...         Designation: "Architect",
+...         Age: 35,
+...         Expertise: ["Mongodb", "Mysql", "Cassandra"],
+...         DOB: "1990-12-12",
+...         Email: "rajesh.verma@cognizant.com",
+...         Contact: "9876543216",
+...         Address: [
+...             { PAddr: { city: "Pune", Pin_code: "411045" } },
+...             { LAddr: { city: "Pune", Pin_code: "411057" } }
+...         ]
+...     },
+...     {
+...         Empid: 8,
+...         Name: { FName: "Pooja", LName: "Joshi" },
+...         Company_name: "Infosys",
+...         Salary: 33000,
+...         Designation: "Programmer",
+...         Age: 25,
+...         Expertise: ["Ruby", "Rails", "PostgreSQL"],
+...         DOB: "2000-04-30",
+...         Email: "pooja.joshi@infosys.com",
+...         Contact: "9876543217",
+...         Address: [
+...             { PAddr: { city: "Bangalore", Pin_code: "560100" } },
+...             { LAddr: { city: "Mysore", Pin_code: "570001" } }
+...         ]
+...     },
+...     {
+...         Empid: 9,
+...         Name: { FName: "Karan", LName: "Gupta" },
+...         Company_name: "TCS",
+...         Salary: 27000,
+...         Designation: "Developer",
+...         Age: 23,
+...         Expertise: ["PHP", "Laravel", "MySQL"],
+...         DOB: "2002-08-20",
+...         Email: "karan.gupta@tcs.com",
+...         Contact: "9876543218",
+...         Address: [
+...             { PAddr: { city: "Delhi", Pin_code: "110015" } },
+...             { LAddr: { city: "Delhi", Pin_code: "110025" } }
+...         ]
+...     },
+...     {
+...         Empid: 10,
+...         Name: { FName: "Neha", LName: "Rao" },
+...         Company_name: "Wipro",
+...         Salary: 29000,
+...         Designation: "Tester",
+...         Age: 26,
+...         Expertise: ["Automation", "Cucumber", "Java"],
+...         DOB: "1999-02-14",
+...         Email: "neha.rao@wipro.com",
+...         Contact: "9876543219",
+...         Address: [
+...             { PAddr: { city: "Chennai", Pin_code: "600020" } },
+...             { LAddr: { city: "Coimbatore", Pin_code: "641001" } }
+...         ]
+...     }
+... ])
+...
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6903c83f837cc22b4963b112'),
+    '1': ObjectId('6903c83f837cc22b4963b113'),
+    '2': ObjectId('6903c83f837cc22b4963b114'),
+    '3': ObjectId('6903c83f837cc22b4963b115'),
+    '4': ObjectId('6903c83f837cc22b4963b116'),
+    '5': ObjectId('6903c83f837cc22b4963b117'),
+    '6': ObjectId('6903c83f837cc22b4963b118'),
+    '7': ObjectId('6903c83f837cc22b4963b119'),
+    '8': ObjectId('6903c83f837cc22b4963b11a'),
+    '9': ObjectId('6903c83f837cc22b4963b11b')
+  }
+}
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.find({ Designation: "Programmer", Salary: { $gt: 30000 } })
+[
+  {
+    _id: ObjectId('6903c83f837cc22b4963b112'),
+    Empid: 1,
+    Name: { FName: 'Rahul', LName: 'Sharma' },
+    Company_name: 'TCS',
+    Salary: 35000,
+    Designation: 'Programmer',
+    Age: 28,
+    Expertise: [ 'Java', 'Python', 'MongoDB' ],
+    DOB: '1997-03-15',
+    Email: 'rahul.sharma@tcs.com',
+    Contact: '9876543210',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Mumbai', Pin_code: '400001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b115'),
+    Empid: 4,
+    Name: { FName: 'Sneha', LName: 'Desai' },
+    Company_name: 'Wipro',
+    Salary: 42000,
+    Designation: 'Programmer',
+    Age: 29,
+    Expertise: [ 'C++', 'Python', 'Docker' ],
+    DOB: '1996-05-18',
+    Email: 'sneha.desai@wipro.com',
+    Contact: '9876543213',
+    Address: [
+      { PAddr: { city: 'Hyderabad', Pin_code: '500001' } },
+      { LAddr: { city: 'Chennai', Pin_code: '600001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b119'),
+    Empid: 8,
+    Name: { FName: 'Pooja', LName: 'Joshi' },
+    Company_name: 'Infosys',
+    Salary: 33000,
+    Designation: 'Programmer',
+    Age: 25,
+    Expertise: [ 'Ruby', 'Rails', 'PostgreSQL' ],
+    DOB: '2000-04-30',
+    Email: 'pooja.joshi@infosys.com',
+    Contact: '9876543217',
+    Address: [
+      { PAddr: { city: 'Bangalore', Pin_code: '560100' } },
+      { LAddr: { city: 'Mysore', Pin_code: '570001' } }
+    ]
+  }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.updateOne(
+...     { Designation: "Tester", Company_name: "TCS", Age: 25 },
+...     { $setOnInsert: { Designation: "Tester", Company_name: "TCS", Age: 25 } },
+...     { upsert: true }
+... )
+{
+  acknowledged: true,
+  insertedId: ObjectId('6903c84f8d443604a5f53373'),
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 1
+}
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.find({ $or: [ { Age: { $lt: 30 } }, { Salary: { $gt: 40000 } } ] })
+[
+  {
+    _id: ObjectId('6903c83f837cc22b4963b112'),
+    Empid: 1,
+    Name: { FName: 'Rahul', LName: 'Sharma' },
+    Company_name: 'TCS',
+    Salary: 35000,
+    Designation: 'Programmer',
+    Age: 28,
+    Expertise: [ 'Java', 'Python', 'MongoDB' ],
+    DOB: '1997-03-15',
+    Email: 'rahul.sharma@tcs.com',
+    Contact: '9876543210',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Mumbai', Pin_code: '400001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b113'),
+    Empid: 2,
+    Name: { FName: 'Priya', LName: 'Patel' },
+    Company_name: 'Infosys',
+    Salary: 45000,
+    Designation: 'Developer',
+    Age: 32,
+    Expertise: [ 'JavaScript', 'React', 'Node.js' ],
+    DOB: '1993-07-22',
+    Email: 'priya.patel@infosys.com',
+    Contact: '9876543211',
+    Address: [
+      { PAddr: { city: 'Bangalore', Pin_code: '560001' } },
+      { LAddr: { city: 'Delhi', Pin_code: '110001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b114'),
+    Empid: 3,
+    Name: { FName: 'Amit', LName: 'Kumar' },
+    Company_name: 'TCS',
+    Salary: 28000,
+    Designation: 'Tester',
+    Age: 26,
+    Expertise: [ 'Selenium', 'JUnit', 'TestNG' ],
+    DOB: '1999-11-10',
+    Email: 'amit.kumar@tcs.com',
+    Contact: '9876543212',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Pune', Pin_code: '411038' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b115'),
+    Empid: 4,
+    Name: { FName: 'Sneha', LName: 'Desai' },
+    Company_name: 'Wipro',
+    Salary: 42000,
+    Designation: 'Programmer',
+    Age: 29,
+    Expertise: [ 'C++', 'Python', 'Docker' ],
+    DOB: '1996-05-18',
+    Email: 'sneha.desai@wipro.com',
+    Contact: '9876543213',
+    Address: [
+      { PAddr: { city: 'Hyderabad', Pin_code: '500001' } },
+      { LAddr: { city: 'Chennai', Pin_code: '600001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b116'),
+    Empid: 5,
+    Name: { FName: 'Vikram', LName: 'Singh' },
+    Company_name: 'Infosys',
+    Salary: 38000,
+    Designation: 'Developer',
+    Age: 27,
+    Expertise: [ 'Angular', 'TypeScript', 'MongoDB' ],
+    DOB: '1998-01-25',
+    Email: 'vikram.singh@infosys.com',
+    Contact: '9876543214',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Nagpur', Pin_code: '440001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b117'),
+    Empid: 6,
+    Name: { FName: 'Anjali', LName: 'Mehta' },
+    Company_name: 'TCS',
+    Salary: 31000,
+    Designation: 'Tester',
+    Age: 24,
+    Expertise: [ 'Manual Testing', 'API Testing', 'Postman' ],
+    DOB: '2001-09-08',
+    Email: 'anjali.mehta@tcs.com',
+    Contact: '9876543215',
+    Address: [
+      { PAddr: { city: 'Mumbai', Pin_code: '400020' } },
+      { LAddr: { city: 'Mumbai', Pin_code: '400050' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b118'),
+    Empid: 7,
+    Name: { FName: 'Rajesh', LName: 'Verma' },
+    Company_name: 'Cognizant',
+    Salary: 50000,
+    Designation: 'Architect',
+    Age: 35,
+    Expertise: [ 'Mongodb', 'Mysql', 'Cassandra' ],
+    DOB: '1990-12-12',
+    Email: 'rajesh.verma@cognizant.com',
+    Contact: '9876543216',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411045' } },
+      { LAddr: { city: 'Pune', Pin_code: '411057' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b119'),
+    Empid: 8,
+    Name: { FName: 'Pooja', LName: 'Joshi' },
+    Company_name: 'Infosys',
+    Salary: 33000,
+    Designation: 'Programmer',
+    Age: 25,
+    Expertise: [ 'Ruby', 'Rails', 'PostgreSQL' ],
+    DOB: '2000-04-30',
+    Email: 'pooja.joshi@infosys.com',
+    Contact: '9876543217',
+    Address: [
+      { PAddr: { city: 'Bangalore', Pin_code: '560100' } },
+      { LAddr: { city: 'Mysore', Pin_code: '570001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b11a'),
+    Empid: 9,
+    Name: { FName: 'Karan', LName: 'Gupta' },
+    Company_name: 'TCS',
+    Salary: 27000,
+    Designation: 'Developer',
+    Age: 23,
+    Expertise: [ 'PHP', 'Laravel', 'MySQL' ],
+    DOB: '2002-08-20',
+    Email: 'karan.gupta@tcs.com',
+    Contact: '9876543218',
+    Address: [
+      { PAddr: { city: 'Delhi', Pin_code: '110015' } },
+      { LAddr: { city: 'Delhi', Pin_code: '110025' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b11b'),
+    Empid: 10,
+    Name: { FName: 'Neha', LName: 'Rao' },
+    Company_name: 'Wipro',
+    Salary: 29000,
+    Designation: 'Tester',
+    Age: 26,
+    Expertise: [ 'Automation', 'Cucumber', 'Java' ],
+    DOB: '1999-02-14',
+    Email: 'neha.rao@wipro.com',
+    Contact: '9876543219',
+    Address: [
+      { PAddr: { city: 'Chennai', Pin_code: '600020' } },
+      { LAddr: { city: 'Coimbatore', Pin_code: '641001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c84f8d443604a5f53373'),
+    Age: 25,
+    Designation: 'Tester',
+    Company_name: 'TCS'
+  }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.find({ "Address.PAddr": { city: "Pune", Pin_code: "411001" } })
+[
+  {
+    _id: ObjectId('6903c83f837cc22b4963b112'),
+    Empid: 1,
+    Name: { FName: 'Rahul', LName: 'Sharma' },
+    Company_name: 'TCS',
+    Salary: 35000,
+    Designation: 'Programmer',
+    Age: 28,
+    Expertise: [ 'Java', 'Python', 'MongoDB' ],
+    DOB: '1997-03-15',
+    Email: 'rahul.sharma@tcs.com',
+    Contact: '9876543210',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Mumbai', Pin_code: '400001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b114'),
+    Empid: 3,
+    Name: { FName: 'Amit', LName: 'Kumar' },
+    Company_name: 'TCS',
+    Salary: 28000,
+    Designation: 'Tester',
+    Age: 26,
+    Expertise: [ 'Selenium', 'JUnit', 'TestNG' ],
+    DOB: '1999-11-10',
+    Email: 'amit.kumar@tcs.com',
+    Contact: '9876543212',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Pune', Pin_code: '411038' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b116'),
+    Empid: 5,
+    Name: { FName: 'Vikram', LName: 'Singh' },
+    Company_name: 'Infosys',
+    Salary: 38000,
+    Designation: 'Developer',
+    Age: 27,
+    Expertise: [ 'Angular', 'TypeScript', 'MongoDB' ],
+    DOB: '1998-01-25',
+    Email: 'vikram.singh@infosys.com',
+    Contact: '9876543214',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Nagpur', Pin_code: '440001' } }
+    ]
+  }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.updateMany(
+...     { Company_name: "TCS" },
+...     { $inc: { Salary: 2000 } }
+... )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.find({ Designation: { $ne: "Developer" } })
+[
+  {
+    _id: ObjectId('6903c83f837cc22b4963b112'),
+    Empid: 1,
+    Name: { FName: 'Rahul', LName: 'Sharma' },
+    Company_name: 'TCS',
+    Salary: 37000,
+    Designation: 'Programmer',
+    Age: 28,
+    Expertise: [ 'Java', 'Python', 'MongoDB' ],
+    DOB: '1997-03-15',
+    Email: 'rahul.sharma@tcs.com',
+    Contact: '9876543210',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Mumbai', Pin_code: '400001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b114'),
+    Empid: 3,
+    Name: { FName: 'Amit', LName: 'Kumar' },
+    Company_name: 'TCS',
+    Salary: 30000,
+    Designation: 'Tester',
+    Age: 26,
+    Expertise: [ 'Selenium', 'JUnit', 'TestNG' ],
+    DOB: '1999-11-10',
+    Email: 'amit.kumar@tcs.com',
+    Contact: '9876543212',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Pune', Pin_code: '411038' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b115'),
+    Empid: 4,
+    Name: { FName: 'Sneha', LName: 'Desai' },
+    Company_name: 'Wipro',
+    Salary: 42000,
+    Designation: 'Programmer',
+    Age: 29,
+    Expertise: [ 'C++', 'Python', 'Docker' ],
+    DOB: '1996-05-18',
+    Email: 'sneha.desai@wipro.com',
+    Contact: '9876543213',
+    Address: [
+      { PAddr: { city: 'Hyderabad', Pin_code: '500001' } },
+      { LAddr: { city: 'Chennai', Pin_code: '600001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b117'),
+    Empid: 6,
+    Name: { FName: 'Anjali', LName: 'Mehta' },
+    Company_name: 'TCS',
+    Salary: 33000,
+    Designation: 'Tester',
+    Age: 24,
+    Expertise: [ 'Manual Testing', 'API Testing', 'Postman' ],
+    DOB: '2001-09-08',
+    Email: 'anjali.mehta@tcs.com',
+    Contact: '9876543215',
+    Address: [
+      { PAddr: { city: 'Mumbai', Pin_code: '400020' } },
+      { LAddr: { city: 'Mumbai', Pin_code: '400050' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b118'),
+    Empid: 7,
+    Name: { FName: 'Rajesh', LName: 'Verma' },
+    Company_name: 'Cognizant',
+    Salary: 50000,
+    Designation: 'Architect',
+    Age: 35,
+    Expertise: [ 'Mongodb', 'Mysql', 'Cassandra' ],
+    DOB: '1990-12-12',
+    Email: 'rajesh.verma@cognizant.com',
+    Contact: '9876543216',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411045' } },
+      { LAddr: { city: 'Pune', Pin_code: '411057' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b119'),
+    Empid: 8,
+    Name: { FName: 'Pooja', LName: 'Joshi' },
+    Company_name: 'Infosys',
+    Salary: 33000,
+    Designation: 'Programmer',
+    Age: 25,
+    Expertise: [ 'Ruby', 'Rails', 'PostgreSQL' ],
+    DOB: '2000-04-30',
+    Email: 'pooja.joshi@infosys.com',
+    Contact: '9876543217',
+    Address: [
+      { PAddr: { city: 'Bangalore', Pin_code: '560100' } },
+      { LAddr: { city: 'Mysore', Pin_code: '570001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b11b'),
+    Empid: 10,
+    Name: { FName: 'Neha', LName: 'Rao' },
+    Company_name: 'Wipro',
+    Salary: 29000,
+    Designation: 'Tester',
+    Age: 26,
+    Expertise: [ 'Automation', 'Cucumber', 'Java' ],
+    DOB: '1999-02-14',
+    Email: 'neha.rao@wipro.com',
+    Contact: '9876543219',
+    Address: [
+      { PAddr: { city: 'Chennai', Pin_code: '600020' } },
+      { LAddr: { city: 'Coimbatore', Pin_code: '641001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c84f8d443604a5f53373'),
+    Age: 25,
+    Designation: 'Tester',
+    Company_name: 'TCS',
+    Salary: 2000
+  }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.find(
+...     { Company_name: "Infosys" },
+...     { _id: 1, Designation: 1, Address: 1, Name: 1 }
+... )
+[
+  {
+    _id: ObjectId('6903c83f837cc22b4963b113'),
+    Name: { FName: 'Priya', LName: 'Patel' },
+    Designation: 'Developer',
+    Address: [
+      { PAddr: { city: 'Bangalore', Pin_code: '560001' } },
+      { LAddr: { city: 'Delhi', Pin_code: '110001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b116'),
+    Name: { FName: 'Vikram', LName: 'Singh' },
+    Designation: 'Developer',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Nagpur', Pin_code: '440001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b119'),
+    Name: { FName: 'Pooja', LName: 'Joshi' },
+    Designation: 'Programmer',
+    Address: [
+      { PAddr: { city: 'Bangalore', Pin_code: '560100' } },
+      { LAddr: { city: 'Mysore', Pin_code: '570001' } }
+    ]
+  }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.find({ Designation: { $in: ["Developer", "Tester"] } })
+[
+  {
+    _id: ObjectId('6903c83f837cc22b4963b113'),
+    Empid: 2,
+    Name: { FName: 'Priya', LName: 'Patel' },
+    Company_name: 'Infosys',
+    Salary: 45000,
+    Designation: 'Developer',
+    Age: 32,
+    Expertise: [ 'JavaScript', 'React', 'Node.js' ],
+    DOB: '1993-07-22',
+    Email: 'priya.patel@infosys.com',
+    Contact: '9876543211',
+    Address: [
+      { PAddr: { city: 'Bangalore', Pin_code: '560001' } },
+      { LAddr: { city: 'Delhi', Pin_code: '110001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b114'),
+    Empid: 3,
+    Name: { FName: 'Amit', LName: 'Kumar' },
+    Company_name: 'TCS',
+    Salary: 30000,
+    Designation: 'Tester',
+    Age: 26,
+    Expertise: [ 'Selenium', 'JUnit', 'TestNG' ],
+    DOB: '1999-11-10',
+    Email: 'amit.kumar@tcs.com',
+    Contact: '9876543212',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Pune', Pin_code: '411038' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b116'),
+    Empid: 5,
+    Name: { FName: 'Vikram', LName: 'Singh' },
+    Company_name: 'Infosys',
+    Salary: 38000,
+    Designation: 'Developer',
+    Age: 27,
+    Expertise: [ 'Angular', 'TypeScript', 'MongoDB' ],
+    DOB: '1998-01-25',
+    Email: 'vikram.singh@infosys.com',
+    Contact: '9876543214',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411001' } },
+      { LAddr: { city: 'Nagpur', Pin_code: '440001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b117'),
+    Empid: 6,
+    Name: { FName: 'Anjali', LName: 'Mehta' },
+    Company_name: 'TCS',
+    Salary: 33000,
+    Designation: 'Tester',
+    Age: 24,
+    Expertise: [ 'Manual Testing', 'API Testing', 'Postman' ],
+    DOB: '2001-09-08',
+    Email: 'anjali.mehta@tcs.com',
+    Contact: '9876543215',
+    Address: [
+      { PAddr: { city: 'Mumbai', Pin_code: '400020' } },
+      { LAddr: { city: 'Mumbai', Pin_code: '400050' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b11a'),
+    Empid: 9,
+    Name: { FName: 'Karan', LName: 'Gupta' },
+    Company_name: 'TCS',
+    Salary: 29000,
+    Designation: 'Developer',
+    Age: 23,
+    Expertise: [ 'PHP', 'Laravel', 'MySQL' ],
+    DOB: '2002-08-20',
+    Email: 'karan.gupta@tcs.com',
+    Contact: '9876543218',
+    Address: [
+      { PAddr: { city: 'Delhi', Pin_code: '110015' } },
+      { LAddr: { city: 'Delhi', Pin_code: '110025' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b11b'),
+    Empid: 10,
+    Name: { FName: 'Neha', LName: 'Rao' },
+    Company_name: 'Wipro',
+    Salary: 29000,
+    Designation: 'Tester',
+    Age: 26,
+    Expertise: [ 'Automation', 'Cucumber', 'Java' ],
+    DOB: '1999-02-14',
+    Email: 'neha.rao@wipro.com',
+    Contact: '9876543219',
+    Address: [
+      { PAddr: { city: 'Chennai', Pin_code: '600020' } },
+      { LAddr: { city: 'Coimbatore', Pin_code: '641001' } }
+    ]
+  },
+  {
+    _id: ObjectId('6903c84f8d443604a5f53373'),
+    Age: 25,
+    Designation: 'Tester',
+    Company_name: 'TCS',
+    Salary: 2000
+  }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.find({ Expertise: ["Mongodb", "Mysql", "Cassandra"] })
+[
+  {
+    _id: ObjectId('6903c83f837cc22b4963b118'),
+    Empid: 7,
+    Name: { FName: 'Rajesh', LName: 'Verma' },
+    Company_name: 'Cognizant',
+    Salary: 50000,
+    Designation: 'Architect',
+    Age: 35,
+    Expertise: [ 'Mongodb', 'Mysql', 'Cassandra' ],
+    DOB: '1990-12-12',
+    Email: 'rajesh.verma@cognizant.com',
+    Contact: '9876543216',
+    Address: [
+      { PAddr: { city: 'Pune', Pin_code: '411045' } },
+      { LAddr: { city: 'Pune', Pin_code: '411057' } }
+    ]
+  }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.deleteOne({ Designation: "Developer" })
+{ acknowledged: true, deletedCount: 1 }
+Atlas atlas-msx21u-shard-0 [primary] Empdb>

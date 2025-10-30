@@ -1,0 +1,107 @@
+db.Employee.mapReduce(
+    function() {
+        emit(this.Company_name, this.Salary);
+    },
+    function(key, values) {
+        return Array.sum(values);
+    },
+    {
+        out: "total_salary_per_company"
+    }
+)
+
+db.total_salary_per_company.find()
+
+db.Employee.mapReduce(
+    function() {
+        if(this.Company_name == "TCS") {
+            emit(this.Company_name, this.Salary);
+        }
+    },
+    function(key, values) {
+        return Array.sum(values);
+    },
+    {
+        out: "tcs_total_salary"
+    }
+)
+
+db.tcs_total_salary.find()
+
+db.Employee.mapReduce(
+    function() {
+        this.Address.forEach(function(addr) {
+            if(addr.PAddr.city == "Pune") {
+                emit("Pune", { sum: this.Salary, count: 1 });
+            }
+        }, this);
+    },
+    function(key, values) {
+        var total = 0;
+        var count = 0;
+        values.forEach(function(value) {
+            total += value.sum;
+            count += value.count;
+        });
+        return { sum: total, count: count, avg: total / count };
+    },
+    {
+        out: "pune_avg_salary"
+    }
+)
+
+db.pune_avg_salary.find()
+
+db.Employee.mapReduce(
+    function() {
+        if(this.Company_name == "Infosys") {
+            emit(this.Designation, this.Salary);
+        }
+    },
+    function(key, values) {
+        return Array.sum(values);
+    },
+    {
+        out: "infosys_designation_salary"
+    }
+)
+
+db.infosys_designation_salary.find()
+
+db.Employee.mapReduce(
+    function() {
+        this.Address.forEach(function(addr) {
+            if(addr.PAddr.State == "AP") {
+                emit("AP", 1);
+            }
+        }, this);
+    },
+    function(key, values) {
+        return Array.sum(values);
+    },
+    {
+        out: "state_ap_count"
+    }
+)
+
+db.state_ap_count.find()
+
+db.Employee.mapReduce(
+    function() {
+        if(this.Age > 40) {
+            this.Address.forEach(function(addr) {
+                if(addr.PAddr.State == "AP") {
+                    emit("AP", 1);
+                }
+            }, this);
+        }
+    },
+    function(key, values) {
+        return Array.sum(values);
+    },
+    {
+        out: "state_ap_age_count"
+    }
+)
+
+db.state_ap_age_count.find()

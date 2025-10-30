@@ -1,0 +1,256 @@
+Please enter a MongoDB connection string (Default: mongodb://localhost/): mongodb+srv://boxboxved:pass@cluster0.kt2gwgy.mongodb.net/?appName=Cluster0
+Current Mongosh Log ID: 6903cd0440e79c2d6163b111
+Connecting to:          mongodb+srv://<credentials>@cluster0.kt2gwgy.mongodb.net/?appName=Cluster0
+Using MongoDB:          8.0.15
+Using Mongosh:          2.5.9
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+Atlas atlas-msx21u-shard-0 [primary] test> use Empdb
+switched to db Empdb
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.aggregate([
+...     {
+...         $group: {
+...             _id: "$Designation",
+...             TotalSalary: { $sum: "$Salary" }
+...         }
+...     },
+...     {
+...         $match: {
+...             TotalSalary: { $gt: 200000 }
+...         }
+...     }
+... ]).pretty()
+
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.aggregate([
+...     {
+...         $match: { Designation: "DBA" }
+...     },
+...     {
+...         $unwind: "$Address"
+...     },
+...     {
+...         $group: {
+...             _id: "$Address.PAddr.city",
+...             TotalSalary: { $sum: "$Salary" }
+...         }
+...     }
+... ]).pretty()
+
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.aggregate([
+...     {
+...         $match: { Designation: "DBA" }
+...     },
+...     {
+...         $group: {
+...             _id: "$Company_name",
+...             TotalSalary: { $sum: "$Salary" }
+...         }
+...     }
+... ]).pretty()
+
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.aggregate([
+...     {
+...         $project: {
+...             Name_Upper: {
+...                 $concat: [
+...                     { $toUpper: "$Name.FName" },
+...                     " ",
+...                     { $toUpper: "$Name.LName" }
+...                 ]
+...             }
+...         }
+...     },
+...     {
+...         $sort: { Name_Upper: 1 }
+...     }
+... ]).pretty()
+[
+  { _id: ObjectId('6903c84f8d443604a5f53373'), Name_Upper: ' ' },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b114'),
+    Name_Upper: 'AMIT KUMAR'
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b117'),
+    Name_Upper: 'ANJALI MEHTA'
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b11a'),
+    Name_Upper: 'KARAN GUPTA'
+  },
+  { _id: ObjectId('6903c83f837cc22b4963b11b'), Name_Upper: 'NEHA RAO' },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b119'),
+    Name_Upper: 'POOJA JOSHI'
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b112'),
+    Name_Upper: 'RAHUL SHARMA'
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b118'),
+    Name_Upper: 'RAJESH VERMA'
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b115'),
+    Name_Upper: 'SNEHA DESAI'
+  },
+  {
+    _id: ObjectId('6903c83f837cc22b4963b116'),
+    Name_Upper: 'VIKRAM SINGH'
+  }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb>
+... db.Employee.aggregate([
+...     {
+...         $count: "TotalRecords"
+...     }
+... ]).pretty()
+[ { TotalRecords: 10 } ]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.aggregate([
+...     {
+...         $group: {
+...             _id: "$Designation",
+...             AvgSal: { $avg: "$Salary" }
+...         }
+...     },
+...     {
+...         $sort: { AvgSal: 1 }
+...     }
+... ]).pretty()
+[
+  { _id: 'Tester', AvgSal: 23500 },
+  { _id: 'Developer', AvgSal: 33500 },
+  { _id: 'Programmer', AvgSal: 37333.333333333336 },
+  { _id: 'Architect', AvgSal: 50000 }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.aggregate([
+...     {
+...         $match: { "Name.FName": "Swapnil" }
+...     },
+...     {
+...         $unwind: "$Expertise"
+...     },
+...     {
+...         $project: {
+...             Expertise: 1
+...         }
+...     }
+... ]).pretty()
+
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.aggregate([
+...     {
+...         $unwind: "$Expertise"
+...     },
+...     {
+...         $group: {
+...             _id: "$Expertise",
+...             Count: { $sum: 1 }
+...         }
+...     }
+... ]).pretty()
+[
+  { _id: 'Python', Count: 2 },
+  { _id: 'MongoDB', Count: 2 },
+  { _id: 'Docker', Count: 1 },
+  { _id: 'Laravel', Count: 1 },
+  { _id: 'PHP', Count: 1 },
+  { _id: 'PostgreSQL', Count: 1 },
+  { _id: 'API Testing', Count: 1 },
+  { _id: 'Cucumber', Count: 1 },
+  { _id: 'Mongodb', Count: 1 },
+  { _id: 'Selenium', Count: 1 },
+  { _id: 'TestNG', Count: 1 },
+  { _id: 'JUnit', Count: 1 },
+  { _id: 'C++', Count: 1 },
+  { _id: 'Java', Count: 2 },
+  { _id: 'Rails', Count: 1 },
+  { _id: 'Postman', Count: 1 },
+  { _id: 'TypeScript', Count: 1 },
+  { _id: 'Automation', Count: 1 },
+  { _id: 'Cassandra', Count: 1 },
+  { _id: 'MySQL', Count: 1 }
+]
+Type "it" for more
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.aggregate([
+...     {
+...         $unwind: "$Address"
+...     },
+...     {
+...         $match: { "Address.PAddr.city": "Pune" }
+...     },
+...     {
+...         $group: {
+...             _id: null,
+...             Designations: { $addToSet: "$Designation" }
+...         }
+...     }
+... ]).pretty()
+[
+  {
+    _id: null,
+    Designations: [ 'Developer', 'Tester', 'Programmer', 'Architect' ]
+  }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.aggregate([
+...     {
+...         $group: {
+...             _id: "$Company_name",
+...             MaxSalary: { $max: "$Salary" },
+...             MinSalary: { $min: "$Salary" }
+...         }
+...     }
+... ]).pretty()
+[
+  { _id: 'Wipro', MaxSalary: 42000, MinSalary: 29000 },
+  { _id: 'TCS', MaxSalary: 37000, MinSalary: 2000 },
+  { _id: 'Infosys', MaxSalary: 38000, MinSalary: 33000 },
+  { _id: 'Cognizant', MaxSalary: 50000, MinSalary: 50000 }
+]
+
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.createIndex({ Designation: 1 })
+Designation_1
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.createIndex({ "Name.FName": 1, Age: -1 })
+Name.FName_1_Age_-1
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.createIndex({ Expertise: 1 })
+Expertise_1
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.getIndexes()
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { Designation: 1 }, name: 'Designation_1' },
+  {
+    v: 2,
+    key: { 'Name.FName': 1, Age: -1 },
+    name: 'Name.FName_1_Age_-1'
+  },
+  { v: 2, key: { Expertise: 1 }, name: 'Expertise_1' }
+]
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.reIndex()
+MongoServerError[AtlasError]: CMD_NOT_ALLOWED: reIndex
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.dropIndex({ Designation: 1 })
+{
+  nIndexesWas: 4,
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1761856975, i: 2 }),
+    signature: {
+      hash: Binary.createFromBase64('V5vRC/jlsZpj7AZ4PIDpn4eFitE=', 0),
+      keyId: Long('7524433083664171010')
+    }
+  },
+  operationTime: Timestamp({ t: 1761856975, i: 2 })
+}
+Atlas atlas-msx21u-shard-0 [primary] Empdb> db.Employee.dropIndexes()
+{
+  nIndexesWas: 3,
+  msg: 'non-_id indexes dropped for collection',
+  ok: 1,
+  '$clusterTime': {
+    clusterTime: Timestamp({ t: 1761856979, i: 2 }),
+    signature: {
+      hash: Binary.createFromBase64('KlsMWD0ts0zNbJuJe0F2bW/Bf3g=', 0),
+      keyId: Long('7524433083664171010')
+    }
+  },
+  operationTime: Timestamp({ t: 1761856979, i: 2 })
