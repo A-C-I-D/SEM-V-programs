@@ -1,3 +1,6 @@
+CREATE DATABASE CompanyOrdersDB;
+USE CompanyOrdersDB;
+
 DROP VIEW View1;
 DROP VIEW View2;
 DROP TABLE Orders;

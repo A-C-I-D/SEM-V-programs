@@ -1,3 +1,10 @@
+CREATE DATABASE Company5DB;
+USE Company5DB;
+DROP TABLE IF EXISTS Manages;
+DROP TABLE IF EXISTS Works;
+DROP TABLE IF EXISTS Company;
+DROP TABLE IF EXISTS Employee;
+
 CREATE TABLE Employee (
     emp_id VARCHAR(10) PRIMARY KEY,
     employee_name VARCHAR(100) NOT NULL,
@@ -11,19 +18,20 @@ CREATE TABLE Company (
 );
 
 CREATE TABLE Works (
-    employee_name VARCHAR(100) PRIMARY KEY,
-    company_name VARCHAR(100) NOT NULL,
+    emp_id VARCHAR(10),
+    company_name VARCHAR(100),
     salary DECIMAL(12,2) NOT NULL,
-    FOREIGN KEY (employee_name) REFERENCES Employee(employee_name),
+    PRIMARY KEY (emp_id, company_name),
+    FOREIGN KEY (emp_id) REFERENCES Employee(emp_id),
     FOREIGN KEY (company_name) REFERENCES Company(company_name)
 );
 
 CREATE TABLE Manages (
-    employee_name VARCHAR(100),
-    manager_name VARCHAR(100),
-    PRIMARY KEY (employee_name, manager_name),
-    FOREIGN KEY (employee_name) REFERENCES Employee(employee_name),
-    FOREIGN KEY (manager_name) REFERENCES Employee(employee_name)
+    emp_id VARCHAR(10),
+    manager_id VARCHAR(10),
+    PRIMARY KEY (emp_id, manager_id),
+    FOREIGN KEY (emp_id) REFERENCES Employee(emp_id),
+    FOREIGN KEY (manager_id) REFERENCES Employee(emp_id)
 );
 
 INSERT INTO Employee VALUES
@@ -40,41 +48,41 @@ INSERT INTO Company VALUES
 ('TCS', 'Pune');
 
 INSERT INTO Works VALUES
-('Rahul Mehta', 'InfoSys', 12000.00),
-('Priya Singh', 'TechM', 15000.00),
-('Amit Patel', 'InfoSys', 9000.00),
-('Sneha Verma', 'TechM', 11000.00),
-('Vikram Shah', 'Wipro', 13000.00),
-('Rahul Mehta', 'TCS', 14000.00),
-('Sneha Verma', 'TCS', 13000.00);
+('E001', 'InfoSys', 12000.00),
+('E002', 'TechM', 15000.00),
+('E003', 'InfoSys', 9000.00),
+('E004', 'TechM', 11000.00),
+('E005', 'Wipro', 13000.00),
+('E001', 'TCS', 14000.00),
+('E004', 'TCS', 13000.00);
 
 INSERT INTO Manages VALUES
-('Priya Singh', 'Rahul Mehta'),
-('Amit Patel', 'Rahul Mehta'),
-('Sneha Verma', 'Vikram Shah');
+('E002', 'E001'),
+('E003', 'E001'),
+('E004', 'E005');
 
 -- Question 1
 SELECT e.employee_name
 FROM Employee e
-JOIN Works w ON e.employee_name = w.employee_name
+JOIN Works w ON e.emp_id = w.emp_id
 WHERE w.company_name = 'TCS';
 
 -- Question 2
 SELECT e.employee_name, w.company_name
 FROM Employee e
-JOIN Works w ON e.employee_name = w.employee_name
+JOIN Works w ON e.emp_id = w.emp_id
 ORDER BY w.company_name ASC, e.employee_name DESC;
 
 -- Question 3
 UPDATE Employee e
-JOIN Works w ON e.employee_name = w.employee_name
+JOIN Works w ON e.emp_id = w.emp_id
 SET e.city = 'Bengaluru'
 WHERE w.company_name = 'InfoSys';
 
 -- Question 4
 SELECT e.employee_name, e.street, e.city
 FROM Employee e
-JOIN Works w ON e.employee_name = w.employee_name
+JOIN Works w ON e.emp_id = w.emp_id
 WHERE w.company_name = 'TechM' AND w.salary > 10000;
 
 -- Question 5

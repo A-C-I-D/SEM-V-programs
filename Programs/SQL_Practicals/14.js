@@ -154,3 +154,7 @@ printjson(
     ]).toArray()
 );
 
+//cleanup
+db.Employee.drop()
+db.total_salary_per_company.drop()
+db.total_salary_tcs.drop()

@@ -1,3 +1,6 @@
+CREATE DATABASE Bank1DB;
+USE Bank1DB;
+
 DROP TABLE Borrower;
 DROP TABLE Loan;
 DROP TABLE Depositor;

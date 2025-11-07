@@ -148,7 +148,7 @@ db.Employee.aggregate([
 db.Employee.aggregate([
     {
         $project: {
-            _id: { $toUpper: "$_id" },
+            _id: 0,
             upperFirstName: { $toUpper: "$Name.FName" },
             upperLastName: { $toUpper: "$Name.LName" }
         }
@@ -230,4 +230,12 @@ print("Time with index: " + (endTime - startTime) + "ms");
 
 // Question 7: List all indexes
 db.Employee.getIndexes()
+
+//clean up
+db.Employee.dropIndex({ Designation: 1 })
+db.Employee.dropIndex({ Expertise: 1 })
+db.Employee.dropIndex({ Emp_id: 1 })
+db.dropCollection("Employee")
+db.Employee.drop()
+
 

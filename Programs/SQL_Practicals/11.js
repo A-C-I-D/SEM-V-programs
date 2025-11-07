@@ -178,3 +178,6 @@ db.Employee.find(
         _id: 0
     }
 )
+
+//cleanup
+db.Employee.drop()

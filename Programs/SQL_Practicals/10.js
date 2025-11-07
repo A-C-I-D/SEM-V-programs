@@ -123,3 +123,6 @@ db.Employee.find({
 db.Employee.find({
     Expertise: ["MongoDB", "MySQL", "Cassandra"]
 })
+
+//cleanup
+db.Employee.drop()

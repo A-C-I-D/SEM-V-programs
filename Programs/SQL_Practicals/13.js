@@ -255,3 +255,6 @@ printjson(withIndexStats.executionStats);
 // Question 7
 var q7Result = db.Employee.getIndexes();
 printjson(q7Result);
+
+//clean up
+db.Employee.drop();
