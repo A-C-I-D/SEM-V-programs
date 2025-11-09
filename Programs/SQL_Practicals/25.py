@@ -25,9 +25,9 @@ def connect(uri=DEFAULT_URI, db_name=DB_NAME, coll_name=COLL_NAME):
     client = MongoClient(uri, serverSelectionTimeoutMS=5000)
     try:
         client.admin.command("ping")
-        print(f"✅ Connected: {uri}")
+        print(f"Connected: {uri}")
     except errors.ServerSelectionTimeoutError as e:
-        sys.exit(f"❌ Cannot connect to MongoDB: {e}\n"
+        sys.exit(f"Cannot connect to MongoDB: {e}\n"
                  f"Tip: ensure the service is running (e.g., `sudo systemctl status mongod`/`mongodb`).")
     db = client[db_name]
     coll = db[coll_name]
@@ -56,11 +56,11 @@ def add_employee(coll):
     }
     try:
         res = coll.insert_one(doc)
-        print(f"✅ Added with _id: {res.inserted_id}")
+        print(f"Added with _id: {res.inserted_id}")
     except errors.DuplicateKeyError:
-        print("❌ Email already exists (unique).")
+        print("Email already exists (unique).")
     except Exception as e:
-        print(f"❌ Add failed: {e}")
+        print(f"Add failed: {e}")
 
 def list_employees(coll, query=None):
     query = query or {}
@@ -73,7 +73,7 @@ def list_employees(coll, query=None):
             print(f"[{r.get('_id')}] {r.get('first_name','')} {r.get('last_name','')} | "
                   f"{r.get('email','')} | {r.get('department','')} | ₹{r.get('salary')}")
     except Exception as e:
-        print(f"❌ Read failed: {e}")
+        print(f"Read failed: {e}")
 
 def update_employee(coll):
     _id = input("Employee _id to update: ").strip()
@@ -110,11 +110,11 @@ def update_employee(coll):
         if res.matched_count == 0:
             print("No document with that _id.")
         else:
-            print(f"✅ Updated ({res.modified_count} doc).")
+            print(f"Updated ({res.modified_count} doc).")
     except errors.DuplicateKeyError:
-        print("❌ Email already exists (unique).")
+        print("Email already exists (unique).")
     except Exception as e:
-        print(f"❌ Update failed: {e}")
+        print(f"Update failed: {e}")
 
 def delete_employee(coll):
     _id = input("Employee _id to delete: ").strip()
@@ -126,11 +126,11 @@ def delete_employee(coll):
     try:
         res = coll.delete_one({"_id": oid})
         if res.deleted_count:
-            print("✅ Deleted.")
+            print("Deleted.")
         else:
             print("No document with that _id.")
     except Exception as e:
-        print(f"❌ Delete failed: {e}")
+        print(f"Delete failed: {e}")
 
 def seed_demo(coll):
     """Optional: add a couple of demo docs."""
@@ -174,7 +174,7 @@ def main():
             else: print("Invalid choice")
     finally:
         client.close()
-        print("🔒 Connection closed.")
+        print("Connection closed.")
 
 if __name__ == "__main__":
     main()
